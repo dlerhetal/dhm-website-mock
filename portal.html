@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal — D&H Meats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50:'#e8edf7',100:'#c5d0ec',200:'#9eafe0',300:'#778ed3',400:'#5975c9',500:'#3b5cbf',600:'#3554b9',700:'#2d4ab1',800:'#2640a9',900:'#062b82' },
+                        accent: { 500:'#c8102e', 600:'#a80d25' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Top Bar -->
+    <div class="bg-brand-900 text-white text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <span>Welcome back, <strong id="portal-user-name">Demo Client</strong></span>
+            <a href="login.html" onclick="localStorage.removeItem('dhm_logged_in'); localStorage.removeItem('dhm_user_name');" class="hover:underline">Sign Out</a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="img/logo.jpg" alt="D&H Meats" class="h-10 w-auto">
+                <span class="text-2xl font-bold text-brand-900">D&H Meats</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="text-gray-600 hover:text-brand-900 transition">Home</a>
+                <a href="blog.html" class="text-gray-600 hover:text-brand-900 transition">Blog</a>
+                <a href="portal.html" class="text-brand-900 font-semibold border-b-2 border-brand-900 pb-1">My Portal</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-brand-900">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-4 pb-4">
+            <a href="index.html" class="block py-2 text-gray-600">Home</a>
+            <a href="blog.html" class="block py-2 text-gray-600">Blog</a>
+            <a href="portal.html" class="block py-2 text-brand-900 font-semibold">My Portal</a>
+        </div>
+    </nav>
+
+    <!-- Portal Content -->
+    <div class="max-w-7xl mx-auto px-4 py-10">
+        <!-- Portal Tabs -->
+        <div class="flex border-b border-gray-200 mb-8 overflow-x-auto">
+            <button onclick="showTab('deals')" id="tab-deals" class="portal-tab px-6 py-3 font-semibold text-brand-900 border-b-2 border-brand-900 whitespace-nowrap">Flash Deals</button>
+            <button onclick="showTab('requests')" id="tab-requests" class="portal-tab px-6 py-3 font-semibold text-gray-500 hover:text-brand-900 border-b-2 border-transparent whitespace-nowrap">Product Requests</button>
+            <button onclick="showTab('orders')" id="tab-orders" class="portal-tab px-6 py-3 font-semibold text-gray-500 hover:text-brand-900 border-b-2 border-transparent whitespace-nowrap">Order History</button>
+            <button onclick="showTab('account')" id="tab-account" class="portal-tab px-6 py-3 font-semibold text-gray-500 hover:text-brand-900 border-b-2 border-transparent whitespace-nowrap">My Account</button>
+        </div>
+
+        <!-- Flash Deals Tab -->
+        <div id="panel-deals" class="portal-panel">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-brand-900">Flash Deals</h2>
+                    <p class="text-gray-500">Limited-time pricing on overstock and closeout items. Act fast!</p>
+                </div>
+                <span class="bg-accent-500 text-white px-4 py-1 rounded-full text-sm font-semibold animate-pulse">3 Active Deals</span>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Deal 1 -->
+                <div class="bg-white rounded-xl border-2 border-accent-500 shadow-sm overflow-hidden">
+                    <div class="bg-accent-500 text-white text-center py-2 text-sm font-bold uppercase tracking-wide">Ends Today</div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-brand-900">81/19 Ground Beef Chubs</h3>
+                        <p class="text-gray-500 text-sm mt-1">Cargill &bull; 10 lb chubs &bull; 4/case</p>
+                        <div class="mt-4 flex items-baseline gap-3">
+                            <span class="text-3xl font-bold text-accent-500">$2.29</span>
+                            <span class="text-gray-400 line-through text-lg">/lb</span>
+                            <span class="text-gray-400 line-through">$2.68/lb</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Min order: 20 cases &bull; ~180 cases available</p>
+                        <button onclick="alert('Added to your inquiry! Herb will follow up within 1 hour.')" class="w-full mt-4 bg-accent-500 hover:bg-accent-600 text-white py-3 rounded-lg font-semibold transition">
+                            Claim This Deal
+                        </button>
+                    </div>
+                </div>
+                <!-- Deal 2 -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div class="bg-amber-500 text-white text-center py-2 text-sm font-bold uppercase tracking-wide">2 Days Left</div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-brand-900">Boneless Pork Loins</h3>
+                        <p class="text-gray-500 text-sm mt-1">Smithfield &bull; ~8 lb avg &bull; 6/case</p>
+                        <div class="mt-4 flex items-baseline gap-3">
+                            <span class="text-3xl font-bold text-brand-900">$1.45</span>
+                            <span class="text-gray-400 line-through text-lg">/lb</span>
+                            <span class="text-gray-400 line-through">$1.82/lb</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Min order: 10 cases &bull; ~90 cases available</p>
+                        <button onclick="alert('Added to your inquiry! Herb will follow up within 1 hour.')" class="w-full mt-4 bg-brand-900 hover:bg-brand-800 text-white py-3 rounded-lg font-semibold transition">
+                            Claim This Deal
+                        </button>
+                    </div>
+                </div>
+                <!-- Deal 3 -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div class="bg-blue-500 text-white text-center py-2 text-sm font-bold uppercase tracking-wide">New This Week</div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-brand-900">IQF Chicken Wings</h3>
+                        <p class="text-gray-500 text-sm mt-1">Tyson &bull; 40 lb case &bull; Jumbo split</p>
+                        <div class="mt-4 flex items-baseline gap-3">
+                            <span class="text-3xl font-bold text-brand-900">$1.18</span>
+                            <span class="text-gray-400 line-through text-lg">/lb</span>
+                            <span class="text-gray-400 line-through">$1.49/lb</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Min order: 15 cases &bull; ~240 cases available</p>
+                        <button onclick="alert('Added to your inquiry! Herb will follow up within 1 hour.')" class="w-full mt-4 bg-brand-900 hover:bg-brand-800 text-white py-3 rounded-lg font-semibold transition">
+                            Claim This Deal
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-800">
+                <strong>How it works:</strong> Click "Claim This Deal" to express interest. Herb will call or text you within 1 hour to confirm quantity and arrange delivery. Deals are first-come, first-served while supply lasts.
+            </div>
+        </div>
+
+        <!-- Product Requests Tab -->
+        <div id="panel-requests" class="portal-panel hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-brand-900">Request Products</h2>
+                <p class="text-gray-500">Tell us what you're looking for and we'll source it. We work with dozens of packers and can usually get quotes within 24 hours.</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Request Form -->
+                <div class="bg-white rounded-xl border border-gray-200 p-6">
+                    <h3 class="text-lg font-bold text-brand-900 mb-4">New Request</h3>
+                    <form id="request-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Product Category</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                <option>Beef</option>
+                                <option>Pork</option>
+                                <option>Poultry</option>
+                                <option>Seafood</option>
+                                <option>Dairy / Cheese</option>
+                                <option>Specialty / Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Product Description</label>
+                            <input type="text" placeholder="e.g. 73/27 Ground Beef Fine Grind, 10 lb chubs" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Quantity Needed</label>
+                                <input type="text" placeholder="e.g. 50 cases/week" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Preferred Brand</label>
+                                <input type="text" placeholder="Any, or specify" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Target Price (optional)</label>
+                            <input type="text" placeholder="e.g. under $2.50/lb" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Notes</label>
+                            <textarea rows="3" placeholder="Delivery frequency, pack size preference, USDA grade, etc." class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900"></textarea>
+                        </div>
+                        <button type="submit" onclick="event.preventDefault(); alert('Request submitted! We\'ll have a quote for you within 24 hours.');" class="w-full bg-brand-900 hover:bg-brand-800 text-white py-3 rounded-lg font-semibold transition">
+                            Submit Request
+                        </button>
+                    </form>
+                </div>
+                <!-- Past Requests -->
+                <div>
+                    <h3 class="text-lg font-bold text-brand-900 mb-4">Recent Requests</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl border border-gray-200 p-5">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-brand-900">Ribeye Lip-On Choice</h4>
+                                <span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Quoted</span>
+                            </div>
+                            <p class="text-sm text-gray-500">Beef &bull; 25+ cases &bull; Submitted Feb 19</p>
+                            <p class="text-sm text-gray-600 mt-2">Quote: $12.45/lb from American Foods Group. 30-case min.</p>
+                        </div>
+                        <div class="bg-white rounded-xl border border-gray-200 p-5">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-brand-900">IQF Shrimp 16/20</h4>
+                                <span class="bg-yellow-100 text-yellow-700 px-3 py-0.5 rounded-full text-xs font-semibold">Sourcing</span>
+                            </div>
+                            <p class="text-sm text-gray-500">Seafood &bull; 40 cases &bull; Submitted Feb 22</p>
+                            <p class="text-sm text-gray-600 mt-2">Checking with King Midas — expect update by Feb 27.</p>
+                        </div>
+                        <div class="bg-white rounded-xl border border-gray-200 p-5">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-brand-900">Pepper Jack 5 lb Loaf</h4>
+                                <span class="bg-gray-100 text-gray-600 px-3 py-0.5 rounded-full text-xs font-semibold">Fulfilled</span>
+                            </div>
+                            <p class="text-sm text-gray-500">Dairy &bull; 10 cases &bull; Submitted Feb 10</p>
+                            <p class="text-sm text-gray-600 mt-2">Delivered Feb 14. $3.20/lb via Cloverdale Wholesale.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order History Tab -->
+        <div id="panel-orders" class="portal-panel hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-brand-900">Order History</h2>
+                <p class="text-gray-500">View your recent orders and delivery status.</p>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="text-left px-6 py-3 font-semibold text-gray-600">Date</th>
+                            <th class="text-left px-6 py-3 font-semibold text-gray-600">Invoice #</th>
+                            <th class="text-left px-6 py-3 font-semibold text-gray-600">Items</th>
+                            <th class="text-right px-6 py-3 font-semibold text-gray-600">Total</th>
+                            <th class="text-center px-6 py-3 font-semibold text-gray-600">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">02/21/2026</td>
+                            <td class="px-6 py-4 font-mono text-brand-900">#DH-2026-0342</td>
+                            <td class="px-6 py-4">Ground Beef 81/19 (20cs), Pork Loins (10cs)</td>
+                            <td class="px-6 py-4 text-right font-semibold">$3,847.20</td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Delivered</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">02/14/2026</td>
+                            <td class="px-6 py-4 font-mono text-brand-900">#DH-2026-0298</td>
+                            <td class="px-6 py-4">Pepper Jack 5lb (10cs), Ribeye Lip-On (8cs)</td>
+                            <td class="px-6 py-4 text-right font-semibold">$5,214.00</td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Delivered</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">02/07/2026</td>
+                            <td class="px-6 py-4 font-mono text-brand-900">#DH-2026-0251</td>
+                            <td class="px-6 py-4">Chicken Wings IQF (30cs), GB 73/27 (15cs)</td>
+                            <td class="px-6 py-4 text-right font-semibold">$2,982.50</td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Delivered</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">01/31/2026</td>
+                            <td class="px-6 py-4 font-mono text-brand-900">#DH-2026-0203</td>
+                            <td class="px-6 py-4">Pork Belly (12cs), Turkey Breast (8cs)</td>
+                            <td class="px-6 py-4 text-right font-semibold">$4,126.80</td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Delivered</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Account Tab -->
+        <div id="panel-account" class="portal-panel hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-brand-900">My Account</h2>
+                <p class="text-gray-500">Manage your business information and preferences.</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl border border-gray-200 p-6">
+                    <h3 class="text-lg font-bold text-brand-900 mb-4">Business Information</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Business Name</span>
+                            <span class="font-semibold">Demo Restaurant LLC</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Contact</span>
+                            <span class="font-semibold">John Smith</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Email</span>
+                            <span class="font-semibold">john@demorestaurant.com</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Phone</span>
+                            <span class="font-semibold">(319) 555-0123</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-gray-500">Delivery Address</span>
+                            <span class="font-semibold">100 Main St, Cedar Rapids, IA 52401</span>
+                        </div>
+                        <div class="flex justify-between py-2">
+                            <span class="text-gray-500">Account Status</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Approved — Net 30</span>
+                        </div>
+                    </div>
+                    <button class="mt-4 text-brand-900 font-semibold text-sm hover:underline">Edit Information</button>
+                </div>
+                <div class="bg-white rounded-xl border border-gray-200 p-6">
+                    <h3 class="text-lg font-bold text-brand-900 mb-4">Notification Preferences</h3>
+                    <div class="space-y-4">
+                        <label class="flex items-center justify-between cursor-pointer">
+                            <div>
+                                <p class="font-semibold text-sm">Flash Deal Alerts</p>
+                                <p class="text-xs text-gray-500">Get notified when new deals are posted</p>
+                            </div>
+                            <input type="checkbox" checked class="w-5 h-5 rounded text-brand-900 focus:ring-brand-900">
+                        </label>
+                        <label class="flex items-center justify-between cursor-pointer">
+                            <div>
+                                <p class="font-semibold text-sm">Request Updates</p>
+                                <p class="text-xs text-gray-500">Notifications when your requests get quotes</p>
+                            </div>
+                            <input type="checkbox" checked class="w-5 h-5 rounded text-brand-900 focus:ring-brand-900">
+                        </label>
+                        <label class="flex items-center justify-between cursor-pointer">
+                            <div>
+                                <p class="font-semibold text-sm">Weekly Market Report</p>
+                                <p class="text-xs text-gray-500">Protein market trends & price outlook</p>
+                            </div>
+                            <input type="checkbox" class="w-5 h-5 rounded text-brand-900 focus:ring-brand-900">
+                        </label>
+                        <label class="flex items-center justify-between cursor-pointer">
+                            <div>
+                                <p class="font-semibold text-sm">SMS Notifications</p>
+                                <p class="text-xs text-gray-500">Text alerts for time-sensitive deals</p>
+                            </div>
+                            <input type="checkbox" checked class="w-5 h-5 rounded text-brand-900 focus:ring-brand-900">
+                        </label>
+                    </div>
+                    <button class="mt-6 bg-brand-900 hover:bg-brand-800 text-white px-6 py-2 rounded-lg text-sm font-semibold transition">Save Preferences</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 mt-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <img src="img/logo.jpg" alt="D&H Meats" class="h-14 w-auto brightness-0 invert mb-3">
+                    <p class="leading-relaxed">325 1st ST<br>Palo, Iowa 52324</p>
+                    <p class="mt-2">(319) 270-4800</p>
+                    <p>dandhmeatco@gmail.com</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="portal.html" class="hover:text-white transition">Client Portal</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-4">Hours</h4>
+                    <p>Monday – Friday: 7AM – 4PM</p>
+                    <p class="mt-1">Saturday – Sunday: Closed</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2026 D&H Meats. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Set user name from localStorage
+        const userName = localStorage.getItem('dhm_user_name') || 'Demo Client';
+        document.getElementById('portal-user-name').textContent = userName;
+
+        // Tab switching
+        function showTab(tab) {
+            document.querySelectorAll('.portal-panel').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.portal-tab').forEach(t => {
+                t.classList.remove('text-brand-900', 'border-brand-900');
+                t.classList.add('text-gray-500', 'border-transparent');
+            });
+            document.getElementById('panel-' + tab).classList.remove('hidden');
+            const activeTab = document.getElementById('tab-' + tab);
+            activeTab.classList.remove('text-gray-500', 'border-transparent');
+            activeTab.classList.add('text-brand-900', 'border-brand-900');
+        }
+    </script>
+</body>
+</html>

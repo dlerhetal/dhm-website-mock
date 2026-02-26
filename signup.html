@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for an Account — D&H Meats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50:'#e8edf7',100:'#c5d0ec',200:'#9eafe0',300:'#778ed3',400:'#5975c9',500:'#3b5cbf',600:'#3554b9',700:'#2d4ab1',800:'#2640a9',900:'#062b82' },
+                        accent: { 500:'#c8102e', 600:'#a80d25' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Top Bar -->
+    <div class="bg-brand-900 text-white text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <span>325 1st ST, Palo, Iowa 52324 &nbsp;|&nbsp; (319) 270-4800</span>
+            <span>Mon–Fri: 7AM – 4PM</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="img/logo.jpg" alt="D&H Meats" class="h-10 w-auto">
+                <span class="text-2xl font-bold text-brand-900">D&H Meats</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="text-gray-600 hover:text-brand-900 transition">Home</a>
+                <a href="blog.html" class="text-gray-600 hover:text-brand-900 transition">Blog</a>
+                <a href="login.html" class="text-gray-600 hover:text-brand-900 transition">Client Portal</a>
+                <a href="signup.html" class="bg-accent-500 text-white px-5 py-2 rounded-lg hover:bg-accent-600 transition font-semibold border-b-2 border-accent-600">Become a Client</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-brand-900">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-4 pb-4">
+            <a href="index.html" class="block py-2 text-gray-600">Home</a>
+            <a href="blog.html" class="block py-2 text-gray-600">Blog</a>
+            <a href="login.html" class="block py-2 text-gray-600">Client Portal</a>
+            <a href="signup.html" class="block py-2 text-accent-500 font-semibold">Become a Client</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-brand-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-3">Become a D&H Meats Client</h1>
+            <p class="text-blue-200 text-lg max-w-2xl">Fill out the credit application below. Once approved, you'll get access to our full product line, flash deals, and dedicated support. Most applications are reviewed within 1–2 business days.</p>
+        </div>
+    </section>
+
+    <!-- Progress Steps -->
+    <div class="bg-white border-b">
+        <div class="max-w-4xl mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3" id="step-indicator-1">
+                    <div class="w-8 h-8 bg-brand-900 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                    <span class="font-semibold text-brand-900 hidden sm:inline">Business Info</span>
+                </div>
+                <div class="flex-1 h-0.5 bg-gray-200 mx-4"><div id="progress-bar-1" class="h-full bg-brand-900 transition-all duration-500" style="width: 0%"></div></div>
+                <div class="flex items-center gap-3" id="step-indicator-2">
+                    <div class="w-8 h-8 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center text-sm font-bold" id="step-circle-2">2</div>
+                    <span class="font-semibold text-gray-400 hidden sm:inline" id="step-label-2">Credit Details</span>
+                </div>
+                <div class="flex-1 h-0.5 bg-gray-200 mx-4"><div id="progress-bar-2" class="h-full bg-brand-900 transition-all duration-500" style="width: 0%"></div></div>
+                <div class="flex items-center gap-3" id="step-indicator-3">
+                    <div class="w-8 h-8 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center text-sm font-bold" id="step-circle-3">3</div>
+                    <span class="font-semibold text-gray-400 hidden sm:inline" id="step-label-3">Review & Submit</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <section class="py-12">
+        <div class="max-w-4xl mx-auto px-4">
+
+            <!-- Step 1: Business Info -->
+            <div id="step-1" class="step-panel">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <h2 class="text-2xl font-bold text-brand-900 mb-2">Business Information</h2>
+                    <p class="text-gray-500 mb-8">Tell us about your business so we can set up your wholesale account.</p>
+
+                    <div class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Legal Business Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="biz-name" required placeholder="e.g. Cedar Rapids Grill LLC" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">DBA / Trade Name</label>
+                                <input type="text" id="biz-dba" placeholder="If different from legal name" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Business Type <span class="text-red-500">*</span></label>
+                            <select id="biz-type" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                <option value="">Select one...</option>
+                                <option>Restaurant / Bar</option>
+                                <option>Grocery Store</option>
+                                <option>Convenience Store</option>
+                                <option>Meat Market / Butcher Shop</option>
+                                <option>Catering Company</option>
+                                <option>Institution (School, Hospital, etc.)</option>
+                                <option>Food Truck</option>
+                                <option>Other Foodservice</option>
+                                <option>Wholesaler / Distributor</option>
+                            </select>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Federal Tax ID (EIN) <span class="text-red-500">*</span></label>
+                                <input type="text" id="biz-ein" placeholder="XX-XXXXXXX" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Years in Business</label>
+                                <input type="number" id="biz-years" placeholder="e.g. 5" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Business Address <span class="text-red-500">*</span></label>
+                            <input type="text" id="biz-address" placeholder="Street address" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900 mb-3">
+                            <div class="grid grid-cols-3 gap-3">
+                                <input type="text" id="biz-city" placeholder="City" class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                <input type="text" id="biz-state" placeholder="State" value="IA" class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                <input type="text" id="biz-zip" placeholder="ZIP" class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Primary Contact Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="contact-name" placeholder="Full name" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Title / Role</label>
+                                <input type="text" id="contact-title" placeholder="e.g. Owner, Purchasing Manager" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Phone <span class="text-red-500">*</span></label>
+                                <input type="tel" id="contact-phone" placeholder="(319) 555-0000" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                                <input type="email" id="contact-email" placeholder="you@business.com" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="goToStep(2)" class="bg-brand-900 hover:bg-brand-800 text-white px-8 py-3 rounded-lg font-semibold transition">
+                            Continue to Credit Details &rarr;
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Credit Details -->
+            <div id="step-2" class="step-panel hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <h2 class="text-2xl font-bold text-brand-900 mb-2">Credit Application</h2>
+                    <p class="text-gray-500 mb-8">This information helps us determine your credit terms. All information is kept strictly confidential.</p>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Requested Credit Terms</label>
+                            <select id="credit-terms" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                <option>COD (Cash on Delivery)</option>
+                                <option>Net 7</option>
+                                <option selected>Net 15</option>
+                                <option>Net 30</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Estimated Weekly Purchase Volume</label>
+                            <select id="credit-volume" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                <option>Under $1,000/week</option>
+                                <option>$1,000 – $5,000/week</option>
+                                <option>$5,000 – $15,000/week</option>
+                                <option>$15,000 – $50,000/week</option>
+                                <option>Over $50,000/week</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Bank Reference</label>
+                            <div class="bg-gray-50 rounded-lg p-5 border border-gray-200 space-y-4">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-500 mb-1">Bank Name</label>
+                                        <input type="text" id="bank-name" placeholder="e.g. Hills Bank & Trust" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-500 mb-1">Account Type</label>
+                                        <select id="bank-type" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                            <option>Business Checking</option>
+                                            <option>Business Savings</option>
+                                            <option>Line of Credit</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-500 mb-1">Contact / Branch Phone</label>
+                                        <input type="tel" id="bank-phone" placeholder="(319) 555-0000" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-500 mb-1">Account # (last 4 digits)</label>
+                                        <input type="text" id="bank-acct" placeholder="XXXX" maxlength="4" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Trade References (at least 2)</label>
+                            <div class="space-y-4">
+                                <!-- Ref 1 -->
+                                <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                                    <p class="text-xs font-bold text-gray-500 uppercase mb-3">Reference 1</p>
+                                    <div class="grid md:grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Company Name</label>
+                                            <input type="text" placeholder="Vendor or supplier name" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Contact Name</label>
+                                            <input type="text" placeholder="Name" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Phone</label>
+                                            <input type="tel" placeholder="(xxx) xxx-xxxx" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Ref 2 -->
+                                <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                                    <p class="text-xs font-bold text-gray-500 uppercase mb-3">Reference 2</p>
+                                    <div class="grid md:grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Company Name</label>
+                                            <input type="text" placeholder="Vendor or supplier name" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Contact Name</label>
+                                            <input type="text" placeholder="Name" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Phone</label>
+                                            <input type="tel" placeholder="(xxx) xxx-xxxx" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Ref 3 -->
+                                <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                                    <p class="text-xs font-bold text-gray-500 uppercase mb-3">Reference 3 (optional)</p>
+                                    <div class="grid md:grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Company Name</label>
+                                            <input type="text" placeholder="Vendor or supplier name" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Contact Name</label>
+                                            <input type="text" placeholder="Name" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Phone</label>
+                                            <input type="tel" placeholder="(xxx) xxx-xxxx" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-900">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Products You're Interested In</label>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Beef</span></label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Pork</span></label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Poultry</span></label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Seafood</span></label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Dairy / Cheese</span></label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Specialty</span></label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Preferred Delivery Day(s)</label>
+                            <div class="grid grid-cols-3 md:grid-cols-5 gap-3 mt-2">
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Mon</span></label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Tue</span></label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Wed</span></label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Thu</span></label>
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded text-brand-900 focus:ring-brand-900"> <span class="text-sm">Fri</span></label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Additional Notes</label>
+                            <textarea id="credit-notes" rows="3" placeholder="Anything else we should know? Special requirements, delivery instructions, etc." class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-between">
+                        <button onclick="goToStep(1)" class="text-gray-500 hover:text-brand-900 font-semibold transition">
+                            &larr; Back
+                        </button>
+                        <button onclick="goToStep(3)" class="bg-brand-900 hover:bg-brand-800 text-white px-8 py-3 rounded-lg font-semibold transition">
+                            Review Application &rarr;
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Review & Submit -->
+            <div id="step-3" class="step-panel hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <h2 class="text-2xl font-bold text-brand-900 mb-2">Review & Submit</h2>
+                    <p class="text-gray-500 mb-8">Please review the information below, then agree to the terms and submit your application.</p>
+
+                    <div id="review-summary" class="space-y-6 mb-8">
+                        <!-- Filled dynamically -->
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-6 border border-gray-200 mb-6">
+                        <h3 class="font-bold text-brand-900 mb-3">Terms & Conditions</h3>
+                        <div class="text-sm text-gray-600 space-y-2 max-h-48 overflow-y-auto pr-2">
+                            <p>By submitting this credit application, the applicant ("Buyer") certifies that all information provided is true and accurate. Buyer authorizes D&H Meats to verify the information provided, including contacting trade references and financial institutions listed above.</p>
+                            <p>If approved for credit terms, Buyer agrees to pay all invoices within the agreed-upon terms. A finance charge of 1.5% per month (18% annually) may be applied to past-due balances. Buyer agrees that in the event of default, Buyer shall be responsible for all collection costs including reasonable attorney's fees.</p>
+                            <p>D&H Meats reserves the right to modify or revoke credit terms at any time. Initial orders may require COD until credit is established. Returned checks will incur a $35 fee.</p>
+                            <p>All products are sold subject to D&H Meats' standard terms of sale. Claims for shortages or damaged goods must be reported within 24 hours of delivery.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-8">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" id="agree-terms" class="mt-1 rounded text-brand-900 focus:ring-brand-900">
+                            <span class="text-sm text-gray-700">I certify that the information provided is true and accurate, and I agree to the terms and conditions above. <span class="text-red-500">*</span></span>
+                        </label>
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" id="agree-auth" class="mt-1 rounded text-brand-900 focus:ring-brand-900">
+                            <span class="text-sm text-gray-700">I authorize D&H Meats to contact the references and financial institutions listed in this application. <span class="text-red-500">*</span></span>
+                        </label>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Applicant Signature (type full name) <span class="text-red-500">*</span></label>
+                            <input type="text" id="signature" placeholder="Type your full legal name" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-900 italic">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Date</label>
+                            <input type="text" id="sign-date" readonly class="w-full border border-gray-200 rounded-lg px-4 py-3 bg-gray-50 text-gray-500">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <button onclick="goToStep(2)" class="text-gray-500 hover:text-brand-900 font-semibold transition">
+                            &larr; Back
+                        </button>
+                        <button onclick="submitApplication()" class="bg-accent-500 hover:bg-accent-600 text-white px-10 py-3 rounded-lg font-semibold text-lg transition">
+                            Submit Application
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success -->
+            <div id="step-success" class="step-panel hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-brand-900 mb-4">Application Submitted!</h2>
+                    <p class="text-gray-600 text-lg mb-2">Thank you for applying to become a D&H Meats client.</p>
+                    <p class="text-gray-500 mb-8">We'll review your application and get back to you within 1–2 business days. If you have questions, call Herb directly at <strong>(319) 270-4800</strong>.</p>
+                    <a href="index.html" class="bg-brand-900 hover:bg-brand-800 text-white px-8 py-3 rounded-lg font-semibold transition inline-block">
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <img src="img/logo.jpg" alt="D&H Meats" class="h-14 w-auto brightness-0 invert mb-3">
+                    <p class="leading-relaxed">325 1st ST<br>Palo, Iowa 52324</p>
+                    <p class="mt-2">(319) 270-4800</p>
+                    <p>dandhmeatco@gmail.com</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="login.html" class="hover:text-white transition">Client Portal</a></li>
+                        <li><a href="signup.html" class="hover:text-white transition">Become a Client</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-4">Hours</h4>
+                    <p>Monday – Friday: 7AM – 4PM</p>
+                    <p class="mt-1">Saturday – Sunday: Closed</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2026 D&H Meats. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Set today's date
+        document.getElementById('sign-date').value = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        function goToStep(step) {
+            // Hide all panels
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
+            document.getElementById('step-' + step).classList.remove('hidden');
+
+            // Update progress indicators
+            for (let i = 1; i <= 3; i++) {
+                const circle = document.getElementById('step-circle-' + i);
+                const label = document.getElementById('step-label-' + i);
+                if (!circle) continue;
+                if (i <= step) {
+                    circle.classList.remove('bg-gray-200', 'text-gray-500');
+                    circle.classList.add('bg-brand-900', 'text-white');
+                    if (label) { label.classList.remove('text-gray-400'); label.classList.add('text-brand-900'); }
+                } else {
+                    circle.classList.remove('bg-brand-900', 'text-white');
+                    circle.classList.add('bg-gray-200', 'text-gray-500');
+                    if (label) { label.classList.remove('text-brand-900'); label.classList.add('text-gray-400'); }
+                }
+            }
+
+            // Progress bars
+            const pb1 = document.getElementById('progress-bar-1');
+            const pb2 = document.getElementById('progress-bar-2');
+            pb1.style.width = step >= 2 ? '100%' : '0%';
+            pb2.style.width = step >= 3 ? '100%' : '0%';
+
+            // Build review summary on step 3
+            if (step === 3) buildReview();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function buildReview() {
+            const bizName = document.getElementById('biz-name').value || '(not provided)';
+            const bizType = document.getElementById('biz-type').value || '(not selected)';
+            const contactName = document.getElementById('contact-name').value || '(not provided)';
+            const contactEmail = document.getElementById('contact-email').value || '(not provided)';
+            const contactPhone = document.getElementById('contact-phone').value || '(not provided)';
+            const address = [
+                document.getElementById('biz-address').value,
+                document.getElementById('biz-city').value,
+                document.getElementById('biz-state').value,
+                document.getElementById('biz-zip').value
+            ].filter(Boolean).join(', ') || '(not provided)';
+
+            const html = `
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                        <h4 class="font-bold text-brand-900 text-sm uppercase tracking-wide mb-3">Business</h4>
+                        <p class="text-sm"><strong>${bizName}</strong></p>
+                        <p class="text-sm text-gray-500">${bizType}</p>
+                        <p class="text-sm text-gray-500 mt-1">${address}</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                        <h4 class="font-bold text-brand-900 text-sm uppercase tracking-wide mb-3">Contact</h4>
+                        <p class="text-sm"><strong>${contactName}</strong></p>
+                        <p class="text-sm text-gray-500">${contactEmail}</p>
+                        <p class="text-sm text-gray-500">${contactPhone}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('review-summary').innerHTML = html;
+        }
+
+        function submitApplication() {
+            const agree1 = document.getElementById('agree-terms').checked;
+            const agree2 = document.getElementById('agree-auth').checked;
+            const sig = document.getElementById('signature').value.trim();
+
+            if (!agree1 || !agree2) {
+                alert('Please agree to both terms before submitting.');
+                return;
+            }
+            if (!sig) {
+                alert('Please type your name as a signature.');
+                return;
+            }
+
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
+            document.getElementById('step-success').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

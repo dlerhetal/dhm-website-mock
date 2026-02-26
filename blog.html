@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog — D&H Meats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50:'#e8edf7',100:'#c5d0ec',200:'#9eafe0',300:'#778ed3',400:'#5975c9',500:'#3b5cbf',600:'#3554b9',700:'#2d4ab1',800:'#2640a9',900:'#062b82' },
+                        accent: { 500:'#c8102e', 600:'#a80d25' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Top Bar -->
+    <div class="bg-brand-900 text-white text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <span>325 1st ST, Palo, Iowa 52324 &nbsp;|&nbsp; (319) 270-4800</span>
+            <span>Mon–Fri: 7AM – 4PM</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="img/logo.jpg" alt="D&H Meats" class="h-10 w-auto">
+                <span class="text-2xl font-bold text-brand-900">D&H Meats</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="text-gray-600 hover:text-brand-900 transition">Home</a>
+                <a href="blog.html" class="text-brand-900 font-semibold border-b-2 border-brand-900 pb-1">Blog</a>
+                <a href="login.html" class="text-gray-600 hover:text-brand-900 transition">Client Portal</a>
+                <a href="signup.html" class="bg-accent-500 text-white px-5 py-2 rounded-lg hover:bg-accent-600 transition font-semibold">Become a Client</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-brand-900">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-4 pb-4">
+            <a href="index.html" class="block py-2 text-gray-600">Home</a>
+            <a href="blog.html" class="block py-2 text-brand-900 font-semibold">Blog</a>
+            <a href="login.html" class="block py-2 text-gray-600">Client Portal</a>
+            <a href="signup.html" class="block py-2 text-accent-500 font-semibold">Become a Client</a>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="bg-brand-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-3">D&H Meats Blog</h1>
+            <p class="text-blue-200 text-lg">Industry news, market updates, and tips for your protein business.</p>
+        </div>
+    </section>
+
+    <!-- Blog Posts -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid lg:grid-cols-3 gap-8">
+
+                <!-- Featured Post -->
+                <div class="lg:col-span-2">
+                    <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-brand-900 to-brand-700 h-56 flex items-end p-8">
+                            <div>
+                                <span class="bg-accent-500 text-white text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wide">Market Update</span>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mt-3">Beef Market Outlook: What to Expect in Spring 2026</h2>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                                <span>February 24, 2026</span>
+                                <span>&bull;</span>
+                                <span>5 min read</span>
+                            </div>
+                            <p class="text-gray-600 leading-relaxed mb-4">
+                                Cattle futures have been volatile heading into spring, and that means opportunity for buyers who plan ahead. Here's what we're seeing from our packer partners and what it means for your purchasing decisions over the next 60 days.
+                            </p>
+                            <p class="text-gray-600 leading-relaxed mb-4">
+                                <strong>Ground beef</strong> pricing has softened slightly due to increased cow slaughter numbers in the Southern Plains. If you typically stock 73/27 or 81/19 blends, now's the time to lock in pricing. We've seen quotes come down $0.08-0.12/lb from January peaks.
+                            </p>
+                            <p class="text-gray-600 leading-relaxed mb-6">
+                                <strong>Choice middle meats</strong> (ribeyes, strips, tenderloins) remain elevated. With grilling season approaching, expect packers to hold firm on pricing through May. Our recommendation: consider booking your Memorial Day needs now rather than waiting for spot-market availability.
+                            </p>
+                            <a href="#" class="text-brand-900 font-semibold hover:underline">Read full article &rarr;</a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Categories -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="font-bold text-brand-900 text-lg mb-4">Categories</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-brand-900 transition flex justify-between"><span>Market Updates</span><span class="text-gray-400">4</span></a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-brand-900 transition flex justify-between"><span>Product Spotlights</span><span class="text-gray-400">3</span></a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-brand-900 transition flex justify-between"><span>Food Safety</span><span class="text-gray-400">2</span></a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-brand-900 transition flex justify-between"><span>Business Tips</span><span class="text-gray-400">2</span></a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-brand-900 transition flex justify-between"><span>Company News</span><span class="text-gray-400">1</span></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="bg-brand-900 rounded-xl p-6 text-white">
+                        <h3 class="font-bold text-lg mb-2">Stay in the Loop</h3>
+                        <p class="text-blue-200 text-sm mb-4">Get market updates and deal alerts straight to your inbox.</p>
+                        <form class="space-y-3" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+                            <input type="email" placeholder="you@restaurant.com" class="w-full px-4 py-2 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-accent-500" required>
+                            <button type="submit" class="w-full bg-accent-500 hover:bg-accent-600 py-2 rounded-lg font-semibold transition">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More Posts Grid -->
+            <div class="grid md:grid-cols-3 gap-8 mt-12">
+                <!-- Post 2 -->
+                <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
+                    <div class="bg-gradient-to-br from-green-700 to-green-500 h-40 flex items-end p-6">
+                        <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full font-semibold">Food Safety</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-brand-900 mb-2">Cold Chain Best Practices for Your Walk-In</h3>
+                        <p class="text-sm text-gray-500 mb-3">February 18, 2026 &bull; 3 min read</p>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Proper cold storage isn't just about food safety — it's about your bottom line. Every degree of temperature abuse costs money in shrink and shelf life. Here are five things every receiving dock should check.
+                        </p>
+                        <a href="#" class="text-brand-900 text-sm font-semibold hover:underline mt-3 inline-block">Read more &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
+                    <div class="bg-gradient-to-br from-amber-600 to-amber-400 h-40 flex items-end p-6">
+                        <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full font-semibold">Product Spotlight</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-brand-900 mb-2">Why Pork/Beef Blends Are Taking Over Burger Menus</h3>
+                        <p class="text-sm text-gray-500 mb-3">February 10, 2026 &bull; 4 min read</p>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            More restaurants are moving to pork/beef blends for their burger programs. The economics are compelling — better margins with a flavor profile customers love. We break down the numbers.
+                        </p>
+                        <a href="#" class="text-brand-900 text-sm font-semibold hover:underline mt-3 inline-block">Read more &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Post 4 -->
+                <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
+                    <div class="bg-gradient-to-br from-purple-700 to-purple-500 h-40 flex items-end p-6">
+                        <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full font-semibold">Business Tips</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-brand-900 mb-2">How to Read a Meat Invoice Like a Pro</h3>
+                        <p class="text-sm text-gray-500 mb-3">January 28, 2026 &bull; 6 min read</p>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            CWT pricing, catchweight vs fixed-weight, fuel surcharges — meat invoices can be confusing. This guide walks you through every line so you always know exactly what you're paying.
+                        </p>
+                        <a href="#" class="text-brand-900 text-sm font-semibold hover:underline mt-3 inline-block">Read more &rarr;</a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-12 gap-2">
+                <span class="bg-brand-900 text-white w-10 h-10 rounded-lg flex items-center justify-center font-semibold">1</span>
+                <a href="#" class="bg-white border border-gray-200 text-gray-600 w-10 h-10 rounded-lg flex items-center justify-center hover:border-brand-900 transition">2</a>
+                <a href="#" class="bg-white border border-gray-200 text-gray-600 w-10 h-10 rounded-lg flex items-center justify-center hover:border-brand-900 transition">3</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <img src="img/logo.jpg" alt="D&H Meats" class="h-14 w-auto brightness-0 invert mb-3">
+                    <p class="leading-relaxed">325 1st ST<br>Palo, Iowa 52324</p>
+                    <p class="mt-2">(319) 270-4800</p>
+                    <p>dandhmeatco@gmail.com</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="login.html" class="hover:text-white transition">Client Portal</a></li>
+                        <li><a href="signup.html" class="hover:text-white transition">Become a Client</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-4">Hours</h4>
+                    <p>Monday – Friday: 7AM – 4PM</p>
+                    <p class="mt-1">Saturday – Sunday: Closed</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2026 D&H Meats. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

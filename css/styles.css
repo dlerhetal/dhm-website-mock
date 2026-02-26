@@ -1,0 +1,50 @@
+/* D&H Meats - Custom Styles */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom focus styles for better accessibility */
+input:focus, select:focus, textarea:focus {
+    outline: none;
+}
+
+/* Animate the flash deal pulse */
+@keyframes pulse-subtle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.animate-pulse {
+    animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+/* Deal card hover lift */
+.deal-card:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+/* Scrollbar styling for terms box */
+.max-h-48::-webkit-scrollbar {
+    width: 6px;
+}
+.max-h-48::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+.max-h-48::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 3px;
+}
+.max-h-48::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Print styles for credit app */
+@media print {
+    nav, footer, .no-print { display: none !important; }
+    body { background: white; }
+    .shadow-sm, .shadow-lg { box-shadow: none !important; }
+}
