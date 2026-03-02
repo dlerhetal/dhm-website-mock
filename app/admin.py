@@ -15,18 +15,30 @@ admin_bp = Blueprint('admin', __name__)
 
 ALLOWED_IMAGE_EXT = {'.jpg', '.jpeg', '.png', '.gif', '.webp'}
 
-def save_deal_image(file):
-    """Save uploaded deal image, return filename or '' on failure."""
-    if not file or not file.filename:
-        return ''
-    ext = os.path.splitext(file.filename)[1].lower()
-    if ext not in ALLOWED_IMAGE_EXT:
-        return ''
-    filename = f"{uuid.uuid4().hex[:12]}{ext}"
+def save_deal_images(files):
+    """Save uploaded deal images, return list of filenames."""
+    saved = []
     upload_dir = os.path.join(current_app.static_folder, 'img', 'deals')
     os.makedirs(upload_dir, exist_ok=True)
-    file.save(os.path.join(upload_dir, filename))
-    return filename
+    for file in files:
+        if not file or not file.filename:
+            continue
+        ext = os.path.splitext(file.filename)[1].lower()
+        if ext not in ALLOWED_IMAGE_EXT:
+            continue
+        filename = f"{uuid.uuid4().hex[:12]}{ext}"
+        file.save(os.path.join(upload_dir, filename))
+        saved.append(filename)
+    return saved
+
+
+def delete_deal_image(filename):
+    """Delete a single deal image file from disk."""
+    if not filename:
+        return
+    path = os.path.join(current_app.static_folder, 'img', 'deals', filename)
+    if os.path.exists(path):
+        os.remove(path)
 
 
 def slugify(text):
@@ -157,7 +169,7 @@ def deals():
 @admin_required
 def deal_new():
     if request.method == 'POST':
-        image_filename = save_deal_image(request.files.get('image'))
+        new_images = save_deal_images(request.files.getlist('images'))
         create_flash_deal(
             product_name=request.form.get('product_name', ''),
             description=request.form.get('description', ''),
@@ -170,7 +182,7 @@ def deal_new():
             min_order=int(request.form.get('min_order', 1)),
             urgency=request.form.get('urgency', ''),
             show_pricing=1 if request.form.get('show_pricing') else 0,
-            image_filename=image_filename,
+            image_filename=','.join(new_images),
             status=request.form.get('status', 'active'),
         )
         flash('Deal created.', 'success')
@@ -201,21 +213,14 @@ def deal_edit(deal_id):
             show_pricing=1 if request.form.get('show_pricing') else 0,
             status=request.form.get('status', 'active'),
         )
-        # Handle image: new upload replaces old, "remove" checkbox clears it
-        new_image = save_deal_image(request.files.get('image'))
-        if new_image:
-            # Delete old file if replacing
-            if deal['image_filename']:
-                old_path = os.path.join(current_app.static_folder, 'img', 'deals', deal['image_filename'])
-                if os.path.exists(old_path):
-                    os.remove(old_path)
-            kwargs['image_filename'] = new_image
-        elif request.form.get('remove_image'):
-            if deal['image_filename']:
-                old_path = os.path.join(current_app.static_folder, 'img', 'deals', deal['image_filename'])
-                if os.path.exists(old_path):
-                    os.remove(old_path)
-            kwargs['image_filename'] = ''
+        # Handle images: keep existing minus removals, plus new uploads
+        existing = [f for f in (deal['image_filename'] or '').split(',') if f]
+        removals = set(request.form.getlist('remove_images'))
+        for fname in removals:
+            delete_deal_image(fname)
+        kept = [f for f in existing if f not in removals]
+        new_images = save_deal_images(request.files.getlist('images'))
+        kwargs['image_filename'] = ','.join(kept + new_images)
 
         update_flash_deal(deal_id, **kwargs)
         flash('Deal updated.', 'success')
@@ -227,6 +232,10 @@ def deal_edit(deal_id):
 @admin_bp.route('/deals/<int:deal_id>/delete', methods=['POST'])
 @admin_required
 def deal_delete(deal_id):
+    deal = get_deal_by_id(deal_id)
+    if deal and deal['image_filename']:
+        for fname in deal['image_filename'].split(','):
+            delete_deal_image(fname)
     delete_flash_deal(deal_id)
     flash('Deal deleted.', 'success')
     return redirect(url_for('admin.deals'))

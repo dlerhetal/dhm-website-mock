@@ -91,22 +91,26 @@
                 </div>
             </div>
 
-            <!-- Product Image -->
+            <!-- Product Images -->
             <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Product Image</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Product Images</label>
                 {% if deal and deal.image_filename %}
-                <div class="mb-3 flex items-start gap-4">
-                    <img src="{{ url_for('static', filename='img/deals/' + deal.image_filename) }}" class="w-32 h-32 object-cover rounded-lg border border-gray-200" alt="Current image">
-                    <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-500 mt-2">
-                        <input type="checkbox" name="remove_image" value="1" class="w-4 h-4 rounded border-gray-300">
-                        Remove image
-                    </label>
+                <div class="mb-3 flex flex-wrap gap-3">
+                    {% for img in deal.image_filename.split(',') if img %}
+                    <div class="relative group">
+                        <img src="{{ url_for('static', filename='img/deals/' + img) }}" class="w-24 h-24 object-cover rounded-lg border border-gray-200" alt="">
+                        <label class="absolute top-1 right-1 bg-white/90 rounded-full w-6 h-6 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition shadow text-red-500 hover:bg-red-50" title="Remove">
+                            <input type="checkbox" name="remove_images" value="{{ img }}" class="hidden" onchange="this.closest('.relative').classList.toggle('opacity-40')">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </label>
+                    </div>
+                    {% endfor %}
                 </div>
                 {% endif %}
-                <input type="file" name="image" accept="image/*" onchange="previewImage(this)"
+                <input type="file" name="images" accept="image/*" multiple onchange="previewImages(this)"
                     class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-accent-500 file:text-black hover:file:bg-accent-600 file:cursor-pointer">
-                <p class="text-xs text-gray-400 mt-1">JPG, PNG, GIF, or WebP. Shows in email blast and deal cards.</p>
-                <img id="image-preview" class="hidden w-32 h-32 object-cover rounded-lg border border-gray-200 mt-3">
+                <p class="text-xs text-gray-400 mt-1">JPG, PNG, GIF, or WebP. Select multiple files. First image used in email blast.</p>
+                <div id="image-previews" class="flex flex-wrap gap-3 mt-3"></div>
             </div>
 
             <div>
@@ -131,15 +135,20 @@
 
 {% block scripts %}
 <script>
-function previewImage(input) {
-    const preview = document.getElementById('image-preview');
-    if (input.files && input.files[0]) {
+function previewImages(input) {
+    const container = document.getElementById('image-previews');
+    container.innerHTML = '';
+    if (!input.files) return;
+    Array.from(input.files).forEach(file => {
         const reader = new FileReader();
-        reader.onload = e => { preview.src = e.target.result; preview.classList.remove('hidden'); };
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        preview.classList.add('hidden');
-    }
+        reader.onload = e => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'w-24 h-24 object-cover rounded-lg border border-gray-200';
+            container.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    });
 }
 </script>
 {% endblock %}

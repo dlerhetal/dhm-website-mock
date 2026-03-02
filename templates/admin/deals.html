@@ -47,15 +47,16 @@
             <tbody class="divide-y divide-gray-100">
                 {% for deal in deals %}
                 <tr class="hover:bg-gray-50"
-                    data-deal='{{ {"name": deal.product_name, "desc": deal.description, "qty": deal.available_qty, "min": deal.min_order, "urgency": deal.urgency, "status": deal.status, "unit": deal.price_unit, "image": deal.image_filename or ""}|tojson }}'>
+                    data-deal='{{ {"name": deal.product_name, "desc": deal.description, "qty": deal.available_qty, "min": deal.min_order, "urgency": deal.urgency, "status": deal.status, "unit": deal.price_unit, "images": (deal.image_filename or "").split(",")|select|list}|tojson }}'>
                     <td class="pl-6 pr-2 py-4">
                         <input type="checkbox" class="deal-checkbox w-4 h-4 rounded border-gray-300 text-accent-500 focus:ring-accent-500 cursor-pointer"
                             {% if deal.status == 'active' %}checked{% endif %}>
                     </td>
                     <td class="px-4 py-4">
                         <div class="flex items-center gap-3">
-                            {% if deal.image_filename %}
-                            <img src="{{ url_for('static', filename='img/deals/' + deal.image_filename) }}" class="w-10 h-10 rounded object-cover border border-gray-200" alt="">
+                            {% set first_image = (deal.image_filename or '').split(',')[0] %}
+                            {% if first_image %}
+                            <img src="{{ url_for('static', filename='img/deals/' + first_image) }}" class="w-10 h-10 rounded object-cover border border-gray-200" alt="">
                             {% else %}
                             <div class="w-10 h-10 rounded bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-300">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -157,8 +158,9 @@ function buildEmailHtml(deals) {
         const urgencyBar = d.urgency
             ? `<tr><td style="background-color:#FFCD00;color:#000;text-align:center;padding:8px;font-weight:bold;font-size:13px;text-transform:uppercase;letter-spacing:1px;">${d.urgency}</td></tr>`
             : '';
-        const imageBlock = d.image
-            ? `<tr><td style="padding:0;"><img src="${SITE_URL}/static/img/deals/${d.image}" width="100%" style="display:block;border-radius:0;" alt="${d.name}"></td></tr>`
+        const firstImg = (d.images && d.images.length) ? d.images[0] : '';
+        const imageBlock = firstImg
+            ? `<tr><td style="padding:0;"><img src="${SITE_URL}/static/img/deals/${firstImg}" width="100%" style="display:block;border-radius:0;" alt="${d.name}"></td></tr>`
             : '';
         cards += `
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;border-collapse:separate;">
