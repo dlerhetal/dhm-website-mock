@@ -47,7 +47,7 @@ def init():
         available_qty INTEGER DEFAULT 0,
         min_order INTEGER DEFAULT 1,
         urgency TEXT DEFAULT '',
-        show_pricing INTEGER DEFAULT 1,
+        show_pricing INTEGER DEFAULT 0,
         status TEXT DEFAULT 'active',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )""")

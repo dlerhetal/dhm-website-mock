@@ -34,14 +34,14 @@
                     <h3 class="font-bold text-black">Tier Pricing</h3>
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" name="show_pricing" value="1" id="show_pricing_toggle"
-                            {% if not deal or deal.show_pricing %}checked{% endif %}
+                            {% if deal and deal.show_pricing %}checked{% endif %}
                             onchange="document.getElementById('pricing-fields').style.opacity = this.checked ? '1' : '0.4'"
                             class="w-5 h-5 rounded border-gray-300 text-accent-500 focus:ring-accent-500">
                         <span class="text-sm font-medium text-gray-700">Show pricing in portal</span>
                     </label>
                 </div>
                 <p class="text-xs text-gray-400 mb-4">When off, portal customers see "Call for Pricing" instead of tier prices. Fill in prices anyway for your own reference.</p>
-                <div id="pricing-fields" class="grid grid-cols-4 gap-4" style="{% if deal and not deal.show_pricing %}opacity:0.4{% endif %}">
+                <div id="pricing-fields" class="grid grid-cols-4 gap-4" style="{% if not deal or (deal and not deal.show_pricing) %}opacity:0.4{% endif %}">
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 mb-1">Tier A (Best)</label>
                         <input type="number" step="0.01" name="price_a" value="{{ deal.price_a if deal else '' }}" placeholder="0.00"

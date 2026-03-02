@@ -165,7 +165,7 @@ def delete_blog_post(post_id):
 # ── Flash Deals ──
 
 def create_flash_deal(product_name, description, price_a, price_b, price_c, price_unit,
-                      regular_price, available_qty, min_order, urgency, show_pricing=1, status='active'):
+                      regular_price, available_qty, min_order, urgency, show_pricing=0, status='active'):
     db = get_db()
     try:
         db.execute(
