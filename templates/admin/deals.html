@@ -158,10 +158,12 @@ function buildEmailHtml(deals) {
         const urgencyBar = d.urgency
             ? `<tr><td style="background-color:#FFCD00;color:#000;text-align:center;padding:8px;font-weight:bold;font-size:13px;text-transform:uppercase;letter-spacing:1px;">${d.urgency}</td></tr>`
             : '';
-        const firstImg = (d.images && d.images.length) ? d.images[0] : '';
-        const imageBlock = firstImg
-            ? `<tr><td style="padding:0;"><img src="${SITE_URL}/static/img/deals/${firstImg}" width="100%" style="display:block;border-radius:0;" alt="${d.name}"></td></tr>`
-            : '';
+        let imageBlock = '';
+        if (d.images && d.images.length) {
+            imageBlock = d.images.map(img =>
+                `<tr><td style="padding:0;"><img src="${SITE_URL}/static/img/deals/${img}" width="100%" style="display:block;border-radius:0;" alt="${d.name}"></td></tr>`
+            ).join('');
+        }
         cards += `
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;border-collapse:separate;">
             ${urgencyBar}
