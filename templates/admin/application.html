@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Credit Application — {{ user.name }}{% endblock %}
+
+{% block topbar %}
+<div class="bg-black text-white text-sm py-2">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        <span>Admin: <strong>{{ session.user_name }}</strong></span>
+        <a href="{{ url_for('admin.users') }}" class="hover:underline">&larr; Back to Users</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-bold text-black mb-2">Credit Application</h1>
+    <p class="text-gray-500 mb-8">{{ user.name }} — {{ user.company }}</p>
+
+    {% if application %}
+    <div class="space-y-6">
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 class="text-lg font-bold text-black mb-4">Business Information</h2>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div><span class="text-gray-500">Legal Name:</span> <span class="font-semibold">{{ application.biz_name }}</span></div>
+                <div><span class="text-gray-500">DBA:</span> <span class="font-semibold">{{ application.biz_dba or '—' }}</span></div>
+                <div><span class="text-gray-500">Type:</span> <span class="font-semibold">{{ application.biz_type }}</span></div>
+                <div><span class="text-gray-500">EIN:</span> <span class="font-semibold">{{ application.biz_ein }}</span></div>
+                <div><span class="text-gray-500">Years:</span> <span class="font-semibold">{{ application.biz_years or '—' }}</span></div>
+                <div><span class="text-gray-500">Address:</span> <span class="font-semibold">{{ application.biz_address }}, {{ application.biz_city }}, {{ application.biz_state }} {{ application.biz_zip }}</span></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 class="text-lg font-bold text-black mb-4">Contact</h2>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div><span class="text-gray-500">Name:</span> <span class="font-semibold">{{ application.contact_name }}</span></div>
+                <div><span class="text-gray-500">Title:</span> <span class="font-semibold">{{ application.contact_title or '—' }}</span></div>
+                <div><span class="text-gray-500">Phone:</span> <span class="font-semibold">{{ application.contact_phone }}</span></div>
+                <div><span class="text-gray-500">Email:</span> <span class="font-semibold">{{ application.contact_email }}</span></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 class="text-lg font-bold text-black mb-4">Credit Details</h2>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div><span class="text-gray-500">Terms Requested:</span> <span class="font-semibold">{{ application.credit_terms }}</span></div>
+                <div><span class="text-gray-500">Weekly Volume:</span> <span class="font-semibold">{{ application.credit_volume }}</span></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 class="text-lg font-bold text-black mb-4">Bank Reference</h2>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div><span class="text-gray-500">Bank:</span> <span class="font-semibold">{{ application.bank_name or '—' }}</span></div>
+                <div><span class="text-gray-500">Type:</span> <span class="font-semibold">{{ application.bank_type or '—' }}</span></div>
+                <div><span class="text-gray-500">Phone:</span> <span class="font-semibold">{{ application.bank_phone or '—' }}</span></div>
+                <div><span class="text-gray-500">Last 4:</span> <span class="font-semibold">{{ application.bank_acct or '—' }}</span></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 class="text-lg font-bold text-black mb-4">Trade References</h2>
+            <div class="space-y-3 text-sm">
+                {% for i in [1, 2, 3] %}
+                {% set co = application['ref' ~ i ~ '_company'] %}
+                {% if co %}
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <strong>Ref {{ i }}:</strong> {{ co }} — {{ application['ref' ~ i ~ '_contact'] or '—' }} — {{ application['ref' ~ i ~ '_phone'] or '—' }}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 class="text-lg font-bold text-black mb-4">Additional</h2>
+            <div class="text-sm space-y-2">
+                <div><span class="text-gray-500">Products:</span> {{ application.products_interested or '—' }}</div>
+                <div><span class="text-gray-500">Delivery Days:</span> {{ application.delivery_days or '—' }}</div>
+                <div><span class="text-gray-500">Notes:</span> {{ application.notes or '—' }}</div>
+                <div><span class="text-gray-500">Signature:</span> <em>{{ application.signature }}</em></div>
+            </div>
+        </div>
+    </div>
+
+    {% if user.status == 'pending' %}
+    <div class="mt-8 flex gap-4">
+        <form method="POST" action="{{ url_for('admin.approve_user', user_id=user.id) }}" class="flex items-center gap-2">
+            <select name="tier" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                <option value="A" selected>Tier A</option>
+                <option value="B">Tier B</option>
+                <option value="C">Tier C</option>
+            </select>
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition">Approve</button>
+        </form>
+        <form method="POST" action="{{ url_for('admin.deny_user', user_id=user.id) }}">
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold transition">Deny</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <p class="text-gray-500">No credit application on file for this user.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

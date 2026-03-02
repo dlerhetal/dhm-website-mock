@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Application Pending{% endblock %}
+
+{% block content %}
+    <section class="min-h-[60vh] flex items-center justify-center py-16">
+        <div class="w-full max-w-lg px-4">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
+                <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-black mb-4">Application Submitted!</h2>
+                <p class="text-gray-600 text-lg mb-2">Thank you for applying to become a D&H Meats client.</p>
+                <p class="text-gray-500 mb-8">We'll review your application and get back to you within 1–2 business days. If you have questions, call Herb directly at <strong>(319) 270-4800</strong>.</p>
+                <a href="{{ url_for('public.home') }}" class="bg-accent-500 hover:bg-accent-600 text-black px-8 py-3 rounded-lg font-semibold transition inline-block">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

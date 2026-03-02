@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+<section class="min-h-[50vh] flex items-center justify-center py-16">
+    <div class="text-center px-4">
+        <h1 class="text-6xl font-bold text-black mb-4">404</h1>
+        <p class="text-xl text-gray-500 mb-8">That page doesn't exist.</p>
+        <a href="{{ url_for('public.home') }}" class="bg-accent-500 hover:bg-accent-600 text-black px-6 py-3 rounded-lg font-semibold transition">Back to Home</a>
+    </div>
+</section>
+{% endblock %}

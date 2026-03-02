@@ -1,0 +1,393 @@
+{% extends "base.html" %}
+{% block title %}Become a Client{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <section class="bg-black text-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-3">Become a D&H Meats Client</h1>
+            <p class="text-gray-400 text-lg max-w-2xl">Fill out the credit application below. Once approved, you'll get access to our full product line, flash deals, and dedicated support. Most applications are reviewed within 1–2 business days.</p>
+        </div>
+    </section>
+
+    <!-- Progress Steps -->
+    <div class="bg-white border-b">
+        <div class="max-w-4xl mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-sm font-bold" id="step-circle-1">1</div>
+                    <span class="font-semibold text-black hidden sm:inline" id="step-label-1">Business Info</span>
+                </div>
+                <div class="flex-1 h-0.5 bg-gray-200 mx-4"><div id="progress-bar-1" class="h-full bg-accent-500 transition-all duration-500" style="width: 0%"></div></div>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center text-sm font-bold" id="step-circle-2">2</div>
+                    <span class="font-semibold text-gray-400 hidden sm:inline" id="step-label-2">Credit Details</span>
+                </div>
+                <div class="flex-1 h-0.5 bg-gray-200 mx-4"><div id="progress-bar-2" class="h-full bg-accent-500 transition-all duration-500" style="width: 0%"></div></div>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-gray-200 text-gray-500 rounded-full flex items-center justify-center text-sm font-bold" id="step-circle-3">3</div>
+                    <span class="font-semibold text-gray-400 hidden sm:inline" id="step-label-3">Review & Submit</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="py-12">
+        <div class="max-w-4xl mx-auto px-4">
+            <form id="signup-form" method="POST" action="{{ url_for('auth.signup') }}">
+                <!-- Step 1: Business Info + Account -->
+                <div id="step-1" class="step-panel">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                        <h2 class="text-2xl font-bold text-black mb-2">Business Information</h2>
+                        <p class="text-gray-500 mb-8">Tell us about your business so we can set up your wholesale account.</p>
+
+                        <!-- Account credentials at top -->
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
+                            <h3 class="font-bold text-black mb-3">Create Your Account</h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+                                    <input type="email" name="contact_email" id="contact-email" placeholder="you@business.com" required
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Password <span class="text-red-500">*</span></label>
+                                    <input type="password" name="password" id="password" placeholder="At least 8 characters" required minlength="8"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Legal Business Name <span class="text-red-500">*</span></label>
+                                    <input type="text" name="biz_name" id="biz-name" required placeholder="e.g. Cedar Rapids Grill LLC"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">DBA / Trade Name</label>
+                                    <input type="text" name="biz_dba" placeholder="If different from legal name"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Business Type <span class="text-red-500">*</span></label>
+                                <select name="biz_type" id="biz-type" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                    <option value="">Select one...</option>
+                                    <option>Restaurant / Bar</option>
+                                    <option>Grocery Store</option>
+                                    <option>Convenience Store</option>
+                                    <option>Meat Market / Butcher Shop</option>
+                                    <option>Catering Company</option>
+                                    <option>Institution (School, Hospital, etc.)</option>
+                                    <option>Food Truck</option>
+                                    <option>Other Foodservice</option>
+                                    <option>Wholesaler / Distributor</option>
+                                </select>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Federal Tax ID (EIN) <span class="text-red-500">*</span></label>
+                                    <input type="text" name="biz_ein" placeholder="XX-XXXXXXX"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Years in Business</label>
+                                    <input type="number" name="biz_years" placeholder="e.g. 5"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Business Address <span class="text-red-500">*</span></label>
+                                <input type="text" name="biz_address" id="biz-address" placeholder="Street address"
+                                    class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500 mb-3">
+                                <div class="grid grid-cols-3 gap-3">
+                                    <input type="text" name="biz_city" id="biz-city" placeholder="City" class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                    <input type="text" name="biz_state" id="biz-state" placeholder="State" value="IA" class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                    <input type="text" name="biz_zip" id="biz-zip" placeholder="ZIP" class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Primary Contact Name <span class="text-red-500">*</span></label>
+                                    <input type="text" name="contact_name" id="contact-name" placeholder="Full name" required
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Title / Role</label>
+                                    <input type="text" name="contact_title" placeholder="e.g. Owner, Purchasing Manager"
+                                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Phone <span class="text-red-500">*</span></label>
+                                <input type="tel" name="contact_phone" id="contact-phone" placeholder="(319) 555-0000" required
+                                    class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex justify-end">
+                            <button type="button" onclick="goToStep(2)" class="bg-accent-500 hover:bg-accent-600 text-black px-8 py-3 rounded-lg font-semibold transition">
+                                Continue to Credit Details &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Credit Details -->
+                <div id="step-2" class="step-panel hidden">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                        <h2 class="text-2xl font-bold text-black mb-2">Credit Application</h2>
+                        <p class="text-gray-500 mb-8">This information helps us determine your credit terms. All information is kept strictly confidential.</p>
+
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Requested Credit Terms</label>
+                                <select name="credit_terms" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                    <option>COD (Cash on Delivery)</option>
+                                    <option>Net 7</option>
+                                    <option selected>Net 15</option>
+                                    <option>Net 30</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Estimated Weekly Purchase Volume</label>
+                                <select name="credit_volume" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                    <option>Under $1,000/week</option>
+                                    <option>$1,000 – $5,000/week</option>
+                                    <option>$5,000 – $15,000/week</option>
+                                    <option>$15,000 – $50,000/week</option>
+                                    <option>Over $50,000/week</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Bank Reference</label>
+                                <div class="bg-gray-50 rounded-lg p-5 border border-gray-200 space-y-4">
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Bank Name</label>
+                                            <input type="text" name="bank_name" placeholder="e.g. Hills Bank & Trust" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Account Type</label>
+                                            <select name="bank_type" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                                <option>Business Checking</option>
+                                                <option>Business Savings</option>
+                                                <option>Line of Credit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Contact / Branch Phone</label>
+                                            <input type="tel" name="bank_phone" placeholder="(319) 555-0000" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-500 mb-1">Account # (last 4 digits)</label>
+                                            <input type="text" name="bank_acct" placeholder="XXXX" maxlength="4" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Trade References (at least 2)</label>
+                                <div class="space-y-4">
+                                    {% for i in [1, 2, 3] %}
+                                    <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                                        <p class="text-xs font-bold text-gray-500 uppercase mb-3">Reference {{ i }}{% if i == 3 %} (optional){% endif %}</p>
+                                        <div class="grid md:grid-cols-3 gap-4">
+                                            <div>
+                                                <label class="block text-xs font-semibold text-gray-500 mb-1">Company Name</label>
+                                                <input type="text" name="ref{{ i }}_company" placeholder="Vendor or supplier name" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-semibold text-gray-500 mb-1">Contact Name</label>
+                                                <input type="text" name="ref{{ i }}_contact" placeholder="Name" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-semibold text-gray-500 mb-1">Phone</label>
+                                                <input type="tel" name="ref{{ i }}_phone" placeholder="(xxx) xxx-xxxx" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Products You're Interested In</label>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
+                                    {% for product in ['Beef', 'Pork', 'Poultry', 'Seafood', 'Dairy / Cheese', 'Specialty'] %}
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" name="products_interested" value="{{ product }}" class="rounded text-accent-500 focus:ring-accent-500">
+                                        <span class="text-sm">{{ product }}</span>
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Preferred Delivery Day(s)</label>
+                                <div class="grid grid-cols-3 md:grid-cols-5 gap-3 mt-2">
+                                    {% for day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] %}
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" name="delivery_days" value="{{ day }}" class="rounded text-accent-500 focus:ring-accent-500">
+                                        <span class="text-sm">{{ day }}</span>
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Additional Notes</label>
+                                <textarea name="notes" rows="3" placeholder="Anything else we should know? Special requirements, delivery instructions, etc."
+                                    class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex justify-between">
+                            <button type="button" onclick="goToStep(1)" class="text-gray-500 hover:text-black font-semibold transition">&larr; Back</button>
+                            <button type="button" onclick="goToStep(3)" class="bg-accent-500 hover:bg-accent-600 text-black px-8 py-3 rounded-lg font-semibold transition">
+                                Review Application &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Review & Submit -->
+                <div id="step-3" class="step-panel hidden">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                        <h2 class="text-2xl font-bold text-black mb-2">Review & Submit</h2>
+                        <p class="text-gray-500 mb-8">Please review your information, agree to the terms, and submit.</p>
+
+                        <div id="review-summary" class="space-y-6 mb-8"></div>
+
+                        <div class="bg-gray-50 rounded-lg p-6 border border-gray-200 mb-6">
+                            <h3 class="font-bold text-black mb-3">Terms & Conditions</h3>
+                            <div class="text-sm text-gray-600 space-y-2 max-h-48 overflow-y-auto pr-2">
+                                <p>By submitting this credit application, the applicant ("Buyer") certifies that all information provided is true and accurate. Buyer authorizes D&H Meats to verify the information provided, including contacting trade references and financial institutions listed above.</p>
+                                <p>If approved for credit terms, Buyer agrees to pay all invoices within the agreed-upon terms. A finance charge of 1.5% per month (18% annually) may be applied to past-due balances. Buyer agrees that in the event of default, Buyer shall be responsible for all collection costs including reasonable attorney's fees.</p>
+                                <p>D&H Meats reserves the right to modify or revoke credit terms at any time. Initial orders may require COD until credit is established. Returned checks will incur a $35 fee.</p>
+                                <p>All products are sold subject to D&H Meats' standard terms of sale. Claims for shortages or damaged goods must be reported within 24 hours of delivery.</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 mb-8">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" id="agree-terms" class="mt-1 rounded text-accent-500 focus:ring-accent-500">
+                                <span class="text-sm text-gray-700">I certify that the information provided is true and accurate, and I agree to the terms and conditions above. <span class="text-red-500">*</span></span>
+                            </label>
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" id="agree-auth" class="mt-1 rounded text-accent-500 focus:ring-accent-500">
+                                <span class="text-sm text-gray-700">I authorize D&H Meats to contact the references and financial institutions listed in this application. <span class="text-red-500">*</span></span>
+                            </label>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Applicant Signature (type full name) <span class="text-red-500">*</span></label>
+                                <input type="text" name="signature" id="signature" placeholder="Type your full legal name"
+                                    class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500 italic">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Date</label>
+                                <input type="text" id="sign-date" readonly class="w-full border border-gray-200 rounded-lg px-4 py-3 bg-gray-50 text-gray-500">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <button type="button" onclick="goToStep(2)" class="text-gray-500 hover:text-black font-semibold transition">&larr; Back</button>
+                            <button type="button" onclick="submitApplication()" class="bg-accent-500 hover:bg-accent-600 text-black px-10 py-3 rounded-lg font-semibold text-lg transition">
+                                Submit Application
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('sign-date').value = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    function goToStep(step) {
+        document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
+        document.getElementById('step-' + step).classList.remove('hidden');
+
+        for (let i = 1; i <= 3; i++) {
+            const circle = document.getElementById('step-circle-' + i);
+            const label = document.getElementById('step-label-' + i);
+            if (!circle) continue;
+            if (i <= step) {
+                circle.classList.remove('bg-gray-200', 'text-gray-500');
+                circle.classList.add('bg-black', 'text-white');
+                if (label) { label.classList.remove('text-gray-400'); label.classList.add('text-black'); }
+            } else {
+                circle.classList.remove('bg-black', 'text-white');
+                circle.classList.add('bg-gray-200', 'text-gray-500');
+                if (label) { label.classList.remove('text-black'); label.classList.add('text-gray-400'); }
+            }
+        }
+
+        document.getElementById('progress-bar-1').style.width = step >= 2 ? '100%' : '0%';
+        document.getElementById('progress-bar-2').style.width = step >= 3 ? '100%' : '0%';
+
+        if (step === 3) buildReview();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function buildReview() {
+        const bizName = document.getElementById('biz-name').value || '(not provided)';
+        const bizType = document.getElementById('biz-type').value || '(not selected)';
+        const contactName = document.getElementById('contact-name').value || '(not provided)';
+        const contactEmail = document.getElementById('contact-email').value || '(not provided)';
+        const contactPhone = document.getElementById('contact-phone').value || '(not provided)';
+        const address = [
+            document.getElementById('biz-address').value,
+            document.getElementById('biz-city').value,
+            document.getElementById('biz-state').value,
+            document.getElementById('biz-zip').value
+        ].filter(Boolean).join(', ') || '(not provided)';
+
+        document.getElementById('review-summary').innerHTML = `
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                    <h4 class="font-bold text-black text-sm uppercase tracking-wide mb-3">Business</h4>
+                    <p class="text-sm"><strong>${bizName}</strong></p>
+                    <p class="text-sm text-gray-500">${bizType}</p>
+                    <p class="text-sm text-gray-500 mt-1">${address}</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                    <h4 class="font-bold text-black text-sm uppercase tracking-wide mb-3">Contact</h4>
+                    <p class="text-sm"><strong>${contactName}</strong></p>
+                    <p class="text-sm text-gray-500">${contactEmail}</p>
+                    <p class="text-sm text-gray-500">${contactPhone}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    function submitApplication() {
+        if (!document.getElementById('agree-terms').checked || !document.getElementById('agree-auth').checked) {
+            alert('Please agree to both terms before submitting.');
+            return;
+        }
+        if (!document.getElementById('signature').value.trim()) {
+            alert('Please type your name as a signature.');
+            return;
+        }
+        document.getElementById('signup-form').submit();
+    }
+</script>
+{% endblock %}

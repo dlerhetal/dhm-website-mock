@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Database
+dhm_website.db
+
+# Inventory data (real business data — not for git)
+data/
+
+# Environment
+.env

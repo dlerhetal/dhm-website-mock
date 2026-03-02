@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% set active_page = 'blog' %}
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+    <section class="bg-black text-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-3">D&H Meats Blog</h1>
+            <p class="text-gray-400 text-lg">Industry news, market updates, and tips for your protein business.</p>
+        </div>
+    </section>
+
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            {% if posts %}
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Featured Post (first) -->
+                {% if posts|length > 0 %}
+                {% set featured = posts[0] %}
+                <div class="lg:col-span-2">
+                    <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="bg-gradient-to-r from-black to-gray-700 h-56 flex items-end p-8">
+                            <div>
+                                <span class="bg-accent-500 text-black text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wide">{{ featured.category }}</span>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mt-3">{{ featured.title }}</h2>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                                {% if featured.published_at %}
+                                <span>{{ featured.published_at[:10] }}</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-gray-600 leading-relaxed mb-4">{{ featured.excerpt }}</p>
+                            <a href="{{ url_for('public.blog_post', slug=featured.slug) }}" class="text-black font-semibold hover:underline">Read full article &rarr;</a>
+                        </div>
+                    </article>
+                </div>
+                {% endif %}
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="font-bold text-black text-lg mb-4">Categories</h3>
+                        <ul class="space-y-2">
+                            {% set categories = posts|map(attribute='category')|list %}
+                            {% for cat in categories|unique %}
+                            <li class="text-gray-600 flex justify-between">
+                                <span>{{ cat }}</span>
+                                <span class="text-gray-400">{{ categories|select('equalto', cat)|list|length }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="bg-black rounded-xl p-6 text-white">
+                        <h3 class="font-bold text-lg mb-2">Stay in the Loop</h3>
+                        <p class="text-gray-400 text-sm mb-4">Get market updates and deal alerts straight to your inbox.</p>
+                        <a href="{{ url_for('auth.signup') }}" class="block w-full bg-accent-500 hover:bg-accent-600 text-black py-2 rounded-lg font-semibold transition text-center">Become a Client</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remaining Posts -->
+            {% if posts|length > 1 %}
+            <div class="grid md:grid-cols-3 gap-8 mt-12">
+                {% for post in posts[1:] %}
+                <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
+                    {% set colors = ['from-green-700 to-green-500', 'from-amber-600 to-amber-400', 'from-purple-700 to-purple-500', 'from-blue-700 to-blue-500'] %}
+                    <div class="bg-gradient-to-br {{ colors[loop.index0 % 4] }} h-40 flex items-end p-6">
+                        <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full font-semibold">{{ post.category }}</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-black mb-2">{{ post.title }}</h3>
+                        {% if post.published_at %}
+                        <p class="text-sm text-gray-500 mb-3">{{ post.published_at[:10] }}</p>
+                        {% endif %}
+                        <p class="text-gray-600 text-sm leading-relaxed">{{ post.excerpt }}</p>
+                        <a href="{{ url_for('public.blog_post', slug=post.slug) }}" class="text-black text-sm font-semibold hover:underline mt-3 inline-block">Read more &rarr;</a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% else %}
+            <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
+                <p class="text-gray-500 text-lg">No blog posts yet. Check back soon.</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

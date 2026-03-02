@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Manage Deals{% endblock %}
+
+{% block topbar %}
+<div class="bg-black text-white text-sm py-2">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        <span>Admin: <strong>{{ session.user_name }}</strong></span>
+        <div class="flex gap-4">
+            <a href="{{ url_for('admin.dashboard') }}" class="hover:underline">Dashboard</a>
+            <a href="{{ url_for('auth.logout') }}" class="hover:underline">Sign Out</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-10">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-3xl font-bold text-black">Flash Deals</h1>
+        <a href="{{ url_for('admin.deal_new') }}" class="bg-accent-500 hover:bg-accent-600 text-black px-6 py-2 rounded-lg font-semibold transition">+ New Deal</a>
+    </div>
+
+    {% if deals %}
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-50 border-b">
+                <tr>
+                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Product</th>
+                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Tier A</th>
+                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Tier B</th>
+                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Tier C</th>
+                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Qty</th>
+                    <th class="text-center px-6 py-3 font-semibold text-gray-600">Status</th>
+                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for deal in deals %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                        <p class="font-medium text-black">{{ deal.product_name }}</p>
+                        <p class="text-xs text-gray-400">{{ deal.urgency }}</p>
+                    </td>
+                    <td class="px-6 py-4 text-right">${{ "%.2f"|format(deal.price_a) }}{{ deal.price_unit }}</td>
+                    <td class="px-6 py-4 text-right">${{ "%.2f"|format(deal.price_b) }}{{ deal.price_unit }}</td>
+                    <td class="px-6 py-4 text-right">${{ "%.2f"|format(deal.price_c) }}{{ deal.price_unit }}</td>
+                    <td class="px-6 py-4 text-right">{{ deal.available_qty }}</td>
+                    <td class="px-6 py-4 text-center">
+                        {% if deal.status == 'active' %}
+                        <span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Active</span>
+                        {% elif deal.status == 'depleted' %}
+                        <span class="bg-gray-100 text-gray-600 px-3 py-0.5 rounded-full text-xs font-semibold">Depleted</span>
+                        {% else %}
+                        <span class="bg-red-100 text-red-700 px-3 py-0.5 rounded-full text-xs font-semibold">{{ deal.status|capitalize }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <a href="{{ url_for('admin.deal_edit', deal_id=deal.id) }}" class="text-accent-600 font-semibold text-sm hover:underline mr-3">Edit</a>
+                        <form method="POST" action="{{ url_for('admin.deal_delete', deal_id=deal.id) }}" class="inline" onsubmit="return confirm('Delete this deal?')">
+                            <button type="submit" class="text-red-600 font-semibold text-sm hover:underline">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <p class="text-gray-500 text-lg mb-4">No flash deals yet.</p>
+        <a href="{{ url_for('admin.deal_new') }}" class="bg-accent-500 hover:bg-accent-600 text-black px-6 py-2 rounded-lg font-semibold transition">Create First Deal</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

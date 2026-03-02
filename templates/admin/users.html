@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Manage Users{% endblock %}
+
+{% block topbar %}
+<div class="bg-black text-white text-sm py-2">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        <span>Admin: <strong>{{ session.user_name }}</strong></span>
+        <div class="flex gap-4">
+            <a href="{{ url_for('admin.dashboard') }}" class="hover:underline">Dashboard</a>
+            <a href="{{ url_for('auth.logout') }}" class="hover:underline">Sign Out</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-bold text-black mb-8">User Management</h1>
+
+    {% set pending = users|selectattr('status', 'equalto', 'pending')|list %}
+    {% if pending %}
+    <div class="mb-10">
+        <h2 class="text-xl font-bold text-black mb-4">Pending Approval ({{ pending|length }})</h2>
+        <div class="space-y-4">
+            {% for u in pending %}
+            <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="font-bold text-black">{{ u.name }}</h3>
+                        <p class="text-sm text-gray-600">{{ u.company }} &bull; {{ u.email }} &bull; {{ u.phone }}</p>
+                        {% if u.address %}<p class="text-sm text-gray-500 mt-1">{{ u.address }}</p>{% endif %}
+                        <a href="{{ url_for('admin.view_application', user_id=u.id) }}" class="text-accent-600 text-sm font-semibold hover:underline mt-2 inline-block">View Full Application &rarr;</a>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <form method="POST" action="{{ url_for('admin.approve_user', user_id=u.id) }}" class="flex items-center gap-2">
+                            <select name="tier" class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent-500">
+                                <option value="A" selected>Tier A</option>
+                                <option value="B">Tier B</option>
+                                <option value="C">Tier C</option>
+                            </select>
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition">Approve</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('admin.deny_user', user_id=u.id) }}">
+                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition">Deny</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <h2 class="text-xl font-bold text-black mb-4">All Users</h2>
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-50 border-b">
+                <tr>
+                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Name</th>
+                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Company</th>
+                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Email</th>
+                    <th class="text-center px-6 py-3 font-semibold text-gray-600">Tier</th>
+                    <th class="text-center px-6 py-3 font-semibold text-gray-600">Status</th>
+                    <th class="text-center px-6 py-3 font-semibold text-gray-600">Admin</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for u in users %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-medium">{{ u.name }}</td>
+                    <td class="px-6 py-4 text-gray-500">{{ u.company }}</td>
+                    <td class="px-6 py-4 text-gray-500">{{ u.email }}</td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="bg-accent-500 text-black px-2 py-0.5 rounded text-xs font-semibold">{{ u.tier }}</span>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        {% if u.status == 'approved' %}
+                        <span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Approved</span>
+                        {% elif u.status == 'pending' %}
+                        <span class="bg-yellow-100 text-yellow-700 px-3 py-0.5 rounded-full text-xs font-semibold">Pending</span>
+                        {% else %}
+                        <span class="bg-red-100 text-red-700 px-3 py-0.5 rounded-full text-xs font-semibold">Denied</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 text-center">{% if u.is_admin %}Yes{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

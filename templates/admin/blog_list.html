@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Manage Blog{% endblock %}
+
+{% block topbar %}
+<div class="bg-black text-white text-sm py-2">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        <span>Admin: <strong>{{ session.user_name }}</strong></span>
+        <div class="flex gap-4">
+            <a href="{{ url_for('admin.dashboard') }}" class="hover:underline">Dashboard</a>
+            <a href="{{ url_for('auth.logout') }}" class="hover:underline">Sign Out</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-10">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-3xl font-bold text-black">Blog Posts</h1>
+        <a href="{{ url_for('admin.blog_new') }}" class="bg-accent-500 hover:bg-accent-600 text-black px-6 py-2 rounded-lg font-semibold transition">+ New Post</a>
+    </div>
+
+    {% if posts %}
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-50 border-b">
+                <tr>
+                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Title</th>
+                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Category</th>
+                    <th class="text-center px-6 py-3 font-semibold text-gray-600">Status</th>
+                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for post in posts %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                        <p class="font-medium text-black">{{ post.title }}</p>
+                        <p class="text-xs text-gray-400">/blog/{{ post.slug }}</p>
+                    </td>
+                    <td class="px-6 py-4 text-gray-500">{{ post.category }}</td>
+                    <td class="px-6 py-4 text-center">
+                        {% if post.status == 'published' %}
+                        <span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Published</span>
+                        {% else %}
+                        <span class="bg-gray-100 text-gray-600 px-3 py-0.5 rounded-full text-xs font-semibold">Draft</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <a href="{{ url_for('admin.blog_edit', post_id=post.id) }}" class="text-accent-600 font-semibold text-sm hover:underline mr-3">Edit</a>
+                        <form method="POST" action="{{ url_for('admin.blog_delete', post_id=post.id) }}" class="inline" onsubmit="return confirm('Delete this post?')">
+                            <button type="submit" class="text-red-600 font-semibold text-sm hover:underline">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <p class="text-gray-500 text-lg mb-4">No blog posts yet.</p>
+        <a href="{{ url_for('admin.blog_new') }}" class="bg-accent-500 hover:bg-accent-600 text-black px-6 py-2 rounded-lg font-semibold transition">Create First Post</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Inventory{% endblock %}
+
+{% block topbar %}
+<div class="bg-black text-white text-sm py-2">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        <span>Welcome back, <strong>{{ session.user_name }}</strong></span>
+        <a href="{{ url_for('auth.logout') }}" class="hover:underline">Sign Out</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-10">
+    <div class="flex border-b border-gray-200 mb-8 overflow-x-auto">
+        <a href="{{ url_for('portal.deals') }}" class="px-6 py-3 font-semibold text-gray-500 hover:text-black border-b-2 border-transparent whitespace-nowrap">Flash Deals</a>
+        <a href="{{ url_for('portal.inventory') }}" class="px-6 py-3 font-semibold text-black border-b-2 border-accent-500 whitespace-nowrap">Inventory</a>
+        <a href="{{ url_for('portal.account') }}" class="px-6 py-3 font-semibold text-gray-500 hover:text-black border-b-2 border-transparent whitespace-nowrap">My Account</a>
+    </div>
+
+    <div class="mb-6">
+        <h2 class="text-2xl font-bold text-black">Live Inventory</h2>
+        <p class="text-gray-500">Current stock from our warehouse. Call to order: (319) 270-4800.</p>
+    </div>
+
+    <!-- Search -->
+    <div class="mb-6">
+        <input type="text" id="inventory-search" placeholder="Search by product name or vendor..."
+            class="w-full md:w-96 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent-500">
+    </div>
+
+    {% if items %}
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <table class="w-full text-sm" id="inventory-table">
+            <thead class="bg-gray-50 border-b">
+                <tr>
+                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Item Name</th>
+                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Pack Size</th>
+                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Cases</th>
+                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Vendor</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for item in items %}
+                <tr class="hover:bg-gray-50 inventory-row">
+                    <td class="px-6 py-4 font-medium">{{ item.item_name }}</td>
+                    <td class="px-6 py-4 text-gray-500">{{ item.pack_size }}</td>
+                    <td class="px-6 py-4 text-right">{{ item.cases }}</td>
+                    <td class="px-6 py-4 text-gray-500">{{ item.vendor }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="text-sm text-gray-400 mt-3">{{ items|length }} items &bull; Updated live from warehouse database</p>
+    {% else %}
+    <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <p class="text-gray-500 text-lg">Inventory data is not available right now. Call (319) 270-4800 for current stock.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('inventory-search').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('.inventory-row').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+});
+</script>
+{% endblock %}

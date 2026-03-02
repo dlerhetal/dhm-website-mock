@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% set active_page = 'blog' %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <section class="bg-black text-white py-16">
+        <div class="max-w-4xl mx-auto px-4">
+            <a href="{{ url_for('public.blog_list') }}" class="text-gray-400 hover:text-white text-sm mb-4 inline-block">&larr; Back to Blog</a>
+            <span class="bg-accent-500 text-black text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wide">{{ post.category }}</span>
+            <h1 class="text-3xl md:text-4xl font-bold mt-3">{{ post.title }}</h1>
+            {% if post.published_at %}
+            <p class="text-gray-400 mt-3">{{ post.published_at[:10] }}</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="py-16">
+        <div class="max-w-4xl mx-auto px-4">
+            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12">
+                <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                    {{ post.content | safe }}
+                </div>
+            </article>
+
+            <div class="mt-8 text-center">
+                <a href="{{ url_for('public.blog_list') }}" class="text-black font-semibold hover:underline">&larr; Back to all posts</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
