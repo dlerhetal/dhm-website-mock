@@ -17,7 +17,12 @@
 <div class="max-w-7xl mx-auto px-4 py-10">
     <div class="flex items-center justify-between mb-8">
         <h1 class="text-3xl font-bold text-black">Flash Deals</h1>
-        <a href="{{ url_for('admin.deal_new') }}" class="bg-accent-500 hover:bg-accent-600 text-black px-6 py-2 rounded-lg font-semibold transition">+ New Deal</a>
+        <div class="flex gap-3">
+            {% if deals %}
+            <button onclick="copyEmailHtml()" id="copy-email-btn" class="bg-gray-800 hover:bg-black text-white px-5 py-2 rounded-lg font-semibold transition text-sm">Copy Email HTML</button>
+            {% endif %}
+            <a href="{{ url_for('admin.deal_new') }}" class="bg-accent-500 hover:bg-accent-600 text-black px-6 py-2 rounded-lg font-semibold transition">+ New Deal</a>
+        </div>
     </div>
 
     {% if deals %}
@@ -36,7 +41,8 @@
             </thead>
             <tbody class="divide-y divide-gray-100">
                 {% for deal in deals %}
-                <tr class="hover:bg-gray-50">
+                <tr class="hover:bg-gray-50"
+                    data-deal='{{ {"name": deal.product_name, "desc": deal.description, "qty": deal.available_qty, "min": deal.min_order, "urgency": deal.urgency, "status": deal.status, "unit": deal.price_unit}|tojson }}'>
                     <td class="px-6 py-4">
                         <p class="font-medium text-black">{{ deal.product_name }}</p>
                         <p class="text-xs text-gray-400">{{ deal.urgency }}</p>
@@ -72,4 +78,62 @@
     </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function copyEmailHtml() {
+    const rows = document.querySelectorAll('tr[data-deal]');
+    const deals = [];
+    rows.forEach(row => {
+        const d = JSON.parse(row.dataset.deal);
+        if (d.status === 'active') deals.push(d);
+    });
+    if (!deals.length) { alert('No active deals to copy.'); return; }
+
+    let cards = '';
+    deals.forEach(d => {
+        const urgencyBar = d.urgency
+            ? `<tr><td style="background-color:#FFCD00;color:#000;text-align:center;padding:8px;font-weight:bold;font-size:13px;text-transform:uppercase;letter-spacing:1px;">${d.urgency}</td></tr>`
+            : '';
+        cards += `
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;border-collapse:separate;">
+            ${urgencyBar}
+            <tr><td style="padding:24px;font-family:Arial,sans-serif;">
+                <h3 style="margin:0 0 4px 0;font-size:18px;color:#000;">${d.name}</h3>
+                <p style="margin:0 0 12px 0;font-size:14px;color:#6b7280;">${d.desc || ''}</p>
+                <p style="margin:0 0 16px 0;font-size:13px;color:#6b7280;">~${d.qty} cases available &bull; Min order: ${d.min} cases</p>
+                <table cellpadding="0" cellspacing="0" style="margin:0 auto;"><tr><td style="background-color:#FFCD00;padding:10px 24px;border-radius:6px;text-align:center;">
+                    <a href="https://dlerhetal.pythonanywhere.com/flash-deals" style="color:#000;text-decoration:none;font-weight:bold;font-size:14px;font-family:Arial,sans-serif;">View Deal</a>
+                </td></tr></table>
+            </td></tr>
+        </table>`;
+    });
+
+    const html = `
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;">
+    <tr><td style="background-color:#000;padding:24px 32px;text-align:center;">
+        <h1 style="margin:0;color:#fff;font-size:24px;">Flash Deals</h1>
+        <p style="margin:6px 0 0 0;color:#9ca3af;font-size:14px;">Won bids we're moving quick. Available while supplies last.</p>
+    </td></tr>
+    <tr><td style="padding:24px 16px;background-color:#f9fafb;">
+        ${cards}
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:8px;"><tr><td style="background-color:#000;padding:12px 24px;border-radius:8px;text-align:center;">
+            <a href="https://dlerhetal.pythonanywhere.com/auth/login" style="color:#FFCD00;text-decoration:none;font-weight:bold;font-size:14px;font-family:Arial,sans-serif;">Log In to See Pricing &rarr;</a>
+        </td></tr></table>
+    </td></tr>
+    <tr><td style="padding:20px 32px;text-align:center;font-size:12px;color:#9ca3af;background-color:#111827;">
+        D&H Meats &bull; 325 1st ST, Palo, Iowa 52324 &bull; (319) 270-4800<br>
+        <a href="https://dlerhetal.pythonanywhere.com" style="color:#FFCD00;text-decoration:none;">dandhmeatco.com</a>
+    </td></tr>
+</table>`;
+
+    navigator.clipboard.writeText(html).then(() => {
+        const btn = document.getElementById('copy-email-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.replace('bg-gray-800', 'bg-green-700');
+        setTimeout(() => { btn.textContent = 'Copy Email HTML'; btn.classList.replace('bg-green-700', 'bg-gray-800'); }, 2000);
+    });
+}
+</script>
 {% endblock %}
