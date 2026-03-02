@@ -19,7 +19,7 @@
         <h1 class="text-3xl font-bold text-black">Flash Deals</h1>
         <div class="flex gap-3">
             {% if deals %}
-            <button onclick="copyEmailHtml()" id="copy-email-btn" class="bg-gray-800 hover:bg-black text-white px-5 py-2 rounded-lg font-semibold transition text-sm">Copy Email HTML</button>
+            <button onclick="openHubSpotDraftModal()" class="bg-accent-500 hover:bg-accent-600 text-black px-5 py-2 rounded-lg font-semibold transition text-sm">Create HubSpot Draft</button>
             {% endif %}
             <a href="{{ url_for('admin.deal_new') }}" class="bg-accent-500 hover:bg-accent-600 text-black px-6 py-2 rounded-lg font-semibold transition">+ New Deal</a>
         </div>
@@ -86,18 +86,41 @@
     </div>
     {% endif %}
 </div>
+
+<!-- HubSpot Draft Modal -->
+<div id="hubspot-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/50" onclick="closeHubSpotModal()"></div>
+    <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col relative">
+            <!-- Status banner -->
+            <div class="bg-amber-50 border-b border-amber-200 px-6 py-3 rounded-t-xl flex items-center gap-2">
+                <svg class="w-5 h-5 text-amber-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                <span class="text-amber-800 text-sm font-medium">HubSpot API not yet connected — preview only</span>
+            </div>
+            <!-- Preview -->
+            <div class="flex-1 overflow-auto p-6">
+                <iframe id="email-preview-frame" class="w-full border border-gray-200 rounded-lg" style="height:500px;" sandbox="allow-same-origin"></iframe>
+            </div>
+            <!-- Actions -->
+            <div class="border-t px-6 py-4 flex justify-end gap-3">
+                <button onclick="copyHtmlFallback()" id="copy-html-btn" class="bg-gray-800 hover:bg-black text-white px-5 py-2 rounded-lg font-semibold transition text-sm">Copy HTML</button>
+                <button onclick="closeHubSpotModal()" class="bg-gray-200 hover:bg-gray-300 text-black px-5 py-2 rounded-lg font-semibold transition text-sm">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-function copyEmailHtml() {
+function buildEmailHtml() {
     const rows = document.querySelectorAll('tr[data-deal]');
     const deals = [];
     rows.forEach(row => {
         const d = JSON.parse(row.dataset.deal);
         if (d.status === 'active') deals.push(d);
     });
-    if (!deals.length) { alert('No active deals to copy.'); return; }
+    if (!deals.length) return null;
 
     let cards = '';
     deals.forEach(d => {
@@ -118,8 +141,7 @@ function copyEmailHtml() {
         </table>`;
     });
 
-    const html = `
-<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;">
+    return `<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;">
     <tr><td style="background-color:#000;padding:24px 32px;text-align:center;">
         <h1 style="margin:0;color:#fff;font-size:24px;">Flash Deals</h1>
         <p style="margin:6px 0 0 0;color:#9ca3af;font-size:14px;">Won bids we're moving quick. Available while supplies last.</p>
@@ -138,13 +160,45 @@ function copyEmailHtml() {
         <a href="https://dlerhetal.pythonanywhere.com" style="color:#FFCD00;text-decoration:none;">dandhmeatco.com</a>
     </td></tr>
 </table>`;
+}
 
-    navigator.clipboard.writeText(html).then(() => {
-        const btn = document.getElementById('copy-email-btn');
+let _emailHtml = '';
+
+function openHubSpotDraftModal() {
+    _emailHtml = buildEmailHtml();
+    if (!_emailHtml) { alert('No active deals to preview.'); return; }
+
+    const modal = document.getElementById('hubspot-modal');
+    const iframe = document.getElementById('email-preview-frame');
+
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    // Write email HTML into iframe for rendered preview
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    doc.open();
+    doc.write('<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:16px;background:#f9fafb;">' + _emailHtml + '</body></html>');
+    doc.close();
+}
+
+function closeHubSpotModal() {
+    document.getElementById('hubspot-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function copyHtmlFallback() {
+    if (!_emailHtml) return;
+    navigator.clipboard.writeText(_emailHtml).then(() => {
+        const btn = document.getElementById('copy-html-btn');
         btn.textContent = 'Copied!';
         btn.classList.replace('bg-gray-800', 'bg-green-700');
-        setTimeout(() => { btn.textContent = 'Copy Email HTML'; btn.classList.replace('bg-green-700', 'bg-gray-800'); }, 2000);
+        setTimeout(() => { btn.textContent = 'Copy HTML'; btn.classList.replace('bg-green-700', 'bg-gray-800'); }, 2000);
     });
 }
+
+// Close modal on Escape key
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeHubSpotModal();
+});
 </script>
 {% endblock %}
