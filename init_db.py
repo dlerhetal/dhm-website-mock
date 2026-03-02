@@ -48,9 +48,20 @@ def init():
         min_order INTEGER DEFAULT 1,
         urgency TEXT DEFAULT '',
         show_pricing INTEGER DEFAULT 0,
+        image_filename TEXT DEFAULT '',
         status TEXT DEFAULT 'active',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )""")
+
+    # Migrate: add missing columns to flash_deals (existing DBs)
+    cols = [r[1] for r in c.execute("PRAGMA table_info(flash_deals)").fetchall()]
+    for col_name, col_def in [
+        ('show_pricing', "INTEGER DEFAULT 0"),
+        ('image_filename', "TEXT DEFAULT ''"),
+    ]:
+        if col_name not in cols:
+            c.execute(f"ALTER TABLE flash_deals ADD COLUMN {col_name} {col_def}")
+            print(f"Migrated: added {col_name} column to flash_deals")
 
     c.execute("""CREATE TABLE IF NOT EXISTS credit_applications (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

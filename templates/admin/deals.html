@@ -30,36 +30,55 @@
         <table class="w-full text-sm">
             <thead class="bg-gray-50 border-b">
                 <tr>
-                    <th class="text-left px-6 py-3 font-semibold text-gray-600">Product</th>
-                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Tier A</th>
-                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Tier B</th>
-                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Tier C</th>
-                    <th class="text-right px-6 py-3 font-semibold text-gray-600">Qty</th>
-                    <th class="text-center px-6 py-3 font-semibold text-gray-600">Pricing</th>
-                    <th class="text-center px-6 py-3 font-semibold text-gray-600">Status</th>
+                    <th class="pl-6 pr-2 py-3 w-10">
+                        <input type="checkbox" id="select-all" onchange="toggleAll(this)" title="Select all"
+                            class="w-4 h-4 rounded border-gray-300 text-accent-500 focus:ring-accent-500 cursor-pointer">
+                    </th>
+                    <th class="text-left px-4 py-3 font-semibold text-gray-600">Product</th>
+                    <th class="text-right px-4 py-3 font-semibold text-gray-600">Tier A</th>
+                    <th class="text-right px-4 py-3 font-semibold text-gray-600">Tier B</th>
+                    <th class="text-right px-4 py-3 font-semibold text-gray-600">Tier C</th>
+                    <th class="text-right px-4 py-3 font-semibold text-gray-600">Qty</th>
+                    <th class="text-center px-4 py-3 font-semibold text-gray-600">Pricing</th>
+                    <th class="text-center px-4 py-3 font-semibold text-gray-600">Status</th>
                     <th class="text-right px-6 py-3 font-semibold text-gray-600">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
                 {% for deal in deals %}
                 <tr class="hover:bg-gray-50"
-                    data-deal='{{ {"name": deal.product_name, "desc": deal.description, "qty": deal.available_qty, "min": deal.min_order, "urgency": deal.urgency, "status": deal.status, "unit": deal.price_unit}|tojson }}'>
-                    <td class="px-6 py-4">
-                        <p class="font-medium text-black">{{ deal.product_name }}</p>
-                        <p class="text-xs text-gray-400">{{ deal.urgency }}</p>
+                    data-deal='{{ {"name": deal.product_name, "desc": deal.description, "qty": deal.available_qty, "min": deal.min_order, "urgency": deal.urgency, "status": deal.status, "unit": deal.price_unit, "image": deal.image_filename or ""}|tojson }}'>
+                    <td class="pl-6 pr-2 py-4">
+                        <input type="checkbox" class="deal-checkbox w-4 h-4 rounded border-gray-300 text-accent-500 focus:ring-accent-500 cursor-pointer"
+                            {% if deal.status == 'active' %}checked{% endif %}>
                     </td>
-                    <td class="px-6 py-4 text-right">${{ "%.2f"|format(deal.price_a) }}{{ deal.price_unit }}</td>
-                    <td class="px-6 py-4 text-right">${{ "%.2f"|format(deal.price_b) }}{{ deal.price_unit }}</td>
-                    <td class="px-6 py-4 text-right">${{ "%.2f"|format(deal.price_c) }}{{ deal.price_unit }}</td>
-                    <td class="px-6 py-4 text-right">{{ deal.available_qty }}</td>
-                    <td class="px-6 py-4 text-center">
+                    <td class="px-4 py-4">
+                        <div class="flex items-center gap-3">
+                            {% if deal.image_filename %}
+                            <img src="{{ url_for('static', filename='img/deals/' + deal.image_filename) }}" class="w-10 h-10 rounded object-cover border border-gray-200" alt="">
+                            {% else %}
+                            <div class="w-10 h-10 rounded bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            </div>
+                            {% endif %}
+                            <div>
+                                <p class="font-medium text-black">{{ deal.product_name }}</p>
+                                <p class="text-xs text-gray-400">{{ deal.urgency }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-4 text-right">${{ "%.2f"|format(deal.price_a) }}{{ deal.price_unit }}</td>
+                    <td class="px-4 py-4 text-right">${{ "%.2f"|format(deal.price_b) }}{{ deal.price_unit }}</td>
+                    <td class="px-4 py-4 text-right">${{ "%.2f"|format(deal.price_c) }}{{ deal.price_unit }}</td>
+                    <td class="px-4 py-4 text-right">{{ deal.available_qty }}</td>
+                    <td class="px-4 py-4 text-center">
                         {% if deal.show_pricing %}
                         <span class="text-green-600 text-xs font-semibold">A/B/C</span>
                         {% else %}
                         <span class="text-gray-400 text-xs font-semibold">Call</span>
                         {% endif %}
                     </td>
-                    <td class="px-6 py-4 text-center">
+                    <td class="px-4 py-4 text-center">
                         {% if deal.status == 'active' %}
                         <span class="bg-green-100 text-green-700 px-3 py-0.5 rounded-full text-xs font-semibold">Active</span>
                         {% elif deal.status == 'depleted' %}
@@ -113,13 +132,24 @@
 
 {% block scripts %}
 <script>
-function buildEmailHtml() {
-    const rows = document.querySelectorAll('tr[data-deal]');
+const SITE_URL = 'https://dlerhetal.pythonanywhere.com';
+
+function toggleAll(master) {
+    document.querySelectorAll('.deal-checkbox').forEach(cb => cb.checked = master.checked);
+}
+
+function getSelectedDeals() {
     const deals = [];
-    rows.forEach(row => {
-        const d = JSON.parse(row.dataset.deal);
-        if (d.status === 'active') deals.push(d);
+    document.querySelectorAll('tr[data-deal]').forEach(row => {
+        const cb = row.querySelector('.deal-checkbox');
+        if (cb && cb.checked) {
+            deals.push(JSON.parse(row.dataset.deal));
+        }
     });
+    return deals;
+}
+
+function buildEmailHtml(deals) {
     if (!deals.length) return null;
 
     let cards = '';
@@ -127,15 +157,19 @@ function buildEmailHtml() {
         const urgencyBar = d.urgency
             ? `<tr><td style="background-color:#FFCD00;color:#000;text-align:center;padding:8px;font-weight:bold;font-size:13px;text-transform:uppercase;letter-spacing:1px;">${d.urgency}</td></tr>`
             : '';
+        const imageBlock = d.image
+            ? `<tr><td style="padding:0;"><img src="${SITE_URL}/static/img/deals/${d.image}" width="100%" style="display:block;border-radius:0;" alt="${d.name}"></td></tr>`
+            : '';
         cards += `
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;border-collapse:separate;">
             ${urgencyBar}
+            ${imageBlock}
             <tr><td style="padding:24px;font-family:Arial,sans-serif;">
                 <h3 style="margin:0 0 4px 0;font-size:18px;color:#000;">${d.name}</h3>
                 <p style="margin:0 0 12px 0;font-size:14px;color:#6b7280;">${d.desc || ''}</p>
                 <p style="margin:0 0 16px 0;font-size:13px;color:#6b7280;">~${d.qty} cases available &bull; Min order: ${d.min} cases</p>
                 <table cellpadding="0" cellspacing="0" style="margin:0 auto;"><tr><td style="background-color:#FFCD00;padding:10px 24px;border-radius:6px;text-align:center;">
-                    <a href="https://dlerhetal.pythonanywhere.com/flash-deals" style="color:#000;text-decoration:none;font-weight:bold;font-size:14px;font-family:Arial,sans-serif;">View Deal</a>
+                    <a href="${SITE_URL}/flash-deals" style="color:#000;text-decoration:none;font-weight:bold;font-size:14px;font-family:Arial,sans-serif;">View Deal</a>
                 </td></tr></table>
             </td></tr>
         </table>`;
@@ -149,7 +183,7 @@ function buildEmailHtml() {
     <tr><td style="padding:24px 16px;background-color:#f9fafb;">
         ${cards}
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background-color:#FFCD00;padding:14px 24px;border-radius:8px;text-align:center;">
-            <a href="https://dlerhetal.pythonanywhere.com/auth/login" style="color:#000;text-decoration:none;font-weight:bold;font-size:15px;font-family:Arial,sans-serif;">Log In to See Your Pricing &rarr;</a>
+            <a href="${SITE_URL}/auth/login" style="color:#000;text-decoration:none;font-weight:bold;font-size:15px;font-family:Arial,sans-serif;">Log In to See Your Pricing &rarr;</a>
         </td></tr></table>
         <p style="text-align:center;margin:12px 0 0 0;font-size:13px;color:#6b7280;font-family:Arial,sans-serif;">
             Or call <a href="tel:3192704800" style="color:#000;font-weight:bold;text-decoration:none;">(319) 270-4800</a> for pricing and availability
@@ -157,7 +191,7 @@ function buildEmailHtml() {
     </td></tr>
     <tr><td style="padding:20px 32px;text-align:center;font-size:12px;color:#9ca3af;background-color:#111827;">
         D&H Meats &bull; 325 1st ST, Palo, Iowa 52324 &bull; (319) 270-4800<br>
-        <a href="https://dlerhetal.pythonanywhere.com" style="color:#FFCD00;text-decoration:none;">dandhmeatco.com</a>
+        <a href="${SITE_URL}" style="color:#FFCD00;text-decoration:none;">dandhmeatco.com</a>
     </td></tr>
 </table>`;
 }
@@ -165,8 +199,11 @@ function buildEmailHtml() {
 let _emailHtml = '';
 
 function openHubSpotDraftModal() {
-    _emailHtml = buildEmailHtml();
-    if (!_emailHtml) { alert('No active deals to preview.'); return; }
+    const selected = getSelectedDeals();
+    if (!selected.length) { alert('Check the deals you want to include in the blast.'); return; }
+
+    _emailHtml = buildEmailHtml(selected);
+    if (!_emailHtml) return;
 
     const modal = document.getElementById('hubspot-modal');
     const iframe = document.getElementById('email-preview-frame');
@@ -174,7 +211,6 @@ function openHubSpotDraftModal() {
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
-    // Write email HTML into iframe for rendered preview
     const doc = iframe.contentDocument || iframe.contentWindow.document;
     doc.open();
     doc.write('<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:16px;background:#f9fafb;">' + _emailHtml + '</body></html>');
@@ -196,7 +232,6 @@ function copyHtmlFallback() {
     });
 }
 
-// Close modal on Escape key
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeHubSpotModal();
 });
