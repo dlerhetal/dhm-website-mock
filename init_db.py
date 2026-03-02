@@ -82,7 +82,7 @@ def init():
                VALUES (?, ?, ?, ?, ?, 'A', 'approved', 1)""",
             (config.ADMIN_EMAIL.lower(),
              generate_password_hash(config.ADMIN_PASSWORD),
-             'Herb Kilburg', 'D&H Meats', '(319) 270-4800')
+             'Alex Glew', 'D&H Meats', '')
         )
         print(f"Admin user created: {config.ADMIN_EMAIL}")
 

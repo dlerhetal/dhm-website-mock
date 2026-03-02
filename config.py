@@ -22,5 +22,5 @@ MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', '')
 MAIL_FROM = os.environ.get('MAIL_FROM', 'info@dandhmeatco.com')
 
 # Admin bootstrap
-ADMIN_EMAIL = os.environ.get('DHM_ADMIN_EMAIL', 'herb@dandhmeatco.com')
+ADMIN_EMAIL = os.environ.get('DHM_ADMIN_EMAIL', 'alex@dandhmeatco.com')
 ADMIN_PASSWORD = os.environ.get('DHM_ADMIN_PASSWORD', 'changeme123')

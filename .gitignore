@@ -11,3 +11,6 @@ data/
 
 # Environment
 .env
+
+# Deploy script (contains API token)
+pa_deploy.py
