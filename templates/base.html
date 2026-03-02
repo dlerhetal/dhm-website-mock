@@ -57,12 +57,18 @@
             <div class="hidden md:flex items-center gap-8">
                 <a href="{{ url_for('public.home') }}" class="{% if active_page == 'home' %}text-black font-semibold border-b-2 border-accent-500 pb-1{% else %}text-gray-600 hover:text-black transition{% endif %}">Home</a>
                 <a href="{{ url_for('public.about') }}" class="{% if active_page == 'about' %}text-black font-semibold border-b-2 border-accent-500 pb-1{% else %}text-gray-600 hover:text-black transition{% endif %}">About</a>
+                {% if session.get('is_admin') %}
+                <a href="{{ url_for('admin.deals') }}" class="{% if active_page == 'deals' %}text-black font-semibold border-b-2 border-accent-500 pb-1{% else %}text-gray-600 hover:text-black transition{% endif %}">Flash Deals</a>
+                <a href="{{ url_for('admin.blog_list') }}" class="{% if active_page == 'blog' %}text-black font-semibold border-b-2 border-accent-500 pb-1{% else %}text-gray-600 hover:text-black transition{% endif %}">Blog</a>
+                <a href="{{ url_for('admin.dashboard') }}" class="{% if active_page == 'admin' %}text-black font-semibold border-b-2 border-accent-500 pb-1{% else %}text-gray-600 hover:text-black transition{% endif %}">Admin</a>
+                {% else %}
                 <a href="{{ url_for('public.flash_deals') }}" class="{% if active_page == 'deals' %}text-black font-semibold border-b-2 border-accent-500 pb-1{% else %}text-gray-600 hover:text-black transition{% endif %}">Flash Deals</a>
                 <a href="{{ url_for('public.blog_list') }}" class="{% if active_page == 'blog' %}text-black font-semibold border-b-2 border-accent-500 pb-1{% else %}text-gray-600 hover:text-black transition{% endif %}">Blog</a>
                 {% if session.get('user_id') %}
                 <a href="{{ url_for('portal.dashboard') }}" class="text-gray-600 hover:text-black transition">My Portal</a>
                 {% else %}
                 <a href="{{ url_for('auth.login') }}" class="text-gray-600 hover:text-black transition">Client Portal</a>
+                {% endif %}
                 {% endif %}
                 {% if not session.get('user_id') %}
                 <a href="{{ url_for('auth.signup') }}" class="bg-accent-500 text-black px-5 py-2 rounded-lg hover:bg-accent-600 transition font-semibold">Become a Client</a>
@@ -79,6 +85,11 @@
         <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-4 pb-4">
             <a href="{{ url_for('public.home') }}" class="block py-2 {% if active_page == 'home' %}text-black font-semibold{% else %}text-gray-600{% endif %}">Home</a>
             <a href="{{ url_for('public.about') }}" class="block py-2 {% if active_page == 'about' %}text-black font-semibold{% else %}text-gray-600{% endif %}">About</a>
+            {% if session.get('is_admin') %}
+            <a href="{{ url_for('admin.deals') }}" class="block py-2 {% if active_page == 'deals' %}text-black font-semibold{% else %}text-gray-600{% endif %}">Flash Deals</a>
+            <a href="{{ url_for('admin.blog_list') }}" class="block py-2 {% if active_page == 'blog' %}text-black font-semibold{% else %}text-gray-600{% endif %}">Blog</a>
+            <a href="{{ url_for('admin.dashboard') }}" class="block py-2 {% if active_page == 'admin' %}text-black font-semibold{% else %}text-gray-600{% endif %}">Admin</a>
+            {% else %}
             <a href="{{ url_for('public.flash_deals') }}" class="block py-2 {% if active_page == 'deals' %}text-black font-semibold{% else %}text-gray-600{% endif %}">Flash Deals</a>
             <a href="{{ url_for('public.blog_list') }}" class="block py-2 {% if active_page == 'blog' %}text-black font-semibold{% else %}text-gray-600{% endif %}">Blog</a>
             {% if session.get('user_id') %}
@@ -86,6 +97,7 @@
             {% else %}
             <a href="{{ url_for('auth.login') }}" class="block py-2 text-gray-600">Client Portal</a>
             <a href="{{ url_for('auth.signup') }}" class="block py-2 text-accent-600 font-semibold">Become a Client</a>
+            {% endif %}
             {% endif %}
         </div>
     </nav>
