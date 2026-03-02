@@ -150,6 +150,7 @@ def deal_new():
             available_qty=int(request.form.get('available_qty', 0)),
             min_order=int(request.form.get('min_order', 1)),
             urgency=request.form.get('urgency', ''),
+            show_pricing=1 if request.form.get('show_pricing') else 0,
             status=request.form.get('status', 'active'),
         )
         flash('Deal created.', 'success')
@@ -177,6 +178,7 @@ def deal_edit(deal_id):
             available_qty=int(request.form.get('available_qty', 0)),
             min_order=int(request.form.get('min_order', 1)),
             urgency=request.form.get('urgency', ''),
+            show_pricing=1 if request.form.get('show_pricing') else 0,
             status=request.form.get('status', 'active'),
         )
         flash('Deal updated.', 'success')
